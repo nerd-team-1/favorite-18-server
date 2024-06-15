@@ -1,0 +1,14 @@
+pluginManagement {
+    plugins {
+        id 'org.springframework.boot' version "${springBootVersion}"
+        id 'io.spring.dependency-management' version "${springDependencyManagementVersion}"
+    }
+}
+
+
+rootProject.name = 'favorite18'
+
+include 'core:core-enum'
+include 'core:core-api'
+include 'core:core-batch'
+include 'storage:db-core'
