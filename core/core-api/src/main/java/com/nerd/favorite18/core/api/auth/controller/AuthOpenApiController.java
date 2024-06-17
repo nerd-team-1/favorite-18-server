@@ -19,8 +19,6 @@ import java.net.URI;
 public class AuthOpenApiController {
     private final AuthBusiness authBusiness;
 
-
-
     @GetMapping("/login")
     public URI login() {
 
