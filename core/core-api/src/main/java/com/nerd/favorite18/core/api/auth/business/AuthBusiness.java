@@ -2,7 +2,8 @@ package com.nerd.favorite18.core.api.auth.business;
 
 import com.nerd.favorite18.core.api._common.annotation.Business;
 import com.nerd.favorite18.core.api._common.client.OAuth2Client;
-import com.nerd.favorite18.core.api.auth.dto.AuthRefreshRequest;
+import com.nerd.favorite18.core.api.auth.dto.request.AuthRefreshRequest;
+import com.nerd.favorite18.core.api.auth.dto.response.AuthGoogleAccessTokenResponse;
 import com.nerd.favorite18.core.api.auth.model.GoogleUserInfo;
 import com.nerd.favorite18.core.api.jwt.business.JwtBusiness;
 import com.nerd.favorite18.core.api.jwt.dto.JwtRefreshResponse;
@@ -14,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.URI;
-import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -51,9 +51,9 @@ public class AuthBusiness {
      * @return JwtResponse JWT 토큰 발행
      */
     public JwtResponse callbackGoogle(String authorizationCode) {
-        Map<String, String> tokenResponse = oauth2Client.getAccessToken(authorizationCode);
+        AuthGoogleAccessTokenResponse tokenResponse = oauth2Client.getAccessToken(authorizationCode);
 
-        String accessToken = tokenResponse.get("access_token");
+        String accessToken = tokenResponse.getAccessToken();
         GoogleUserInfo googleUserInfo = new GoogleUserInfo(oauth2Client.getUserInfo(accessToken));
 
         // 구글 유저 정보 기반으로 유저를 조회

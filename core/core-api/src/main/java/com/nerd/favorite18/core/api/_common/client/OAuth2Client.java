@@ -1,19 +1,31 @@
 package com.nerd.favorite18.core.api._common.client;
 
+import com.nerd.favorite18.core.api.auth.dto.request.AuthGoogleAccessTokenRequest;
+import com.nerd.favorite18.core.api.auth.dto.response.AuthGoogleAccessTokenResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.HashMap;
 import java.util.Map;
 
+@RequiredArgsConstructor
 @Component
 public class OAuth2Client {
-    private final static String AUTHORIZATION_URI = "https://accounts.google.com/o/oauth2/auth";
-    private final static String TOKEN_URI = "https://oauth2.googleapis.com/token";
-    private final static String USER_INFO_URI = "https://www.googleapis.com/oauth2/v3/userinfo";
+    private final RestTemplate restTemplate;
+
+    @Value("${oauth2.google.authorization-uri}")
+    private String googleAuthorizationUri;
+
+    @Value("${oauth2.google.token-uri}")
+    private String googleTokenUri;
+
+    @Value("${oauth2.google.user-info-uri}")
+    private String googleUserInfoUri;
 
     @Value("${oauth2.google.client-id}")
     private String clientId;
@@ -25,7 +37,8 @@ public class OAuth2Client {
     private String redirectUri;
 
     public URI getAuthorizationUri() {
-        return UriComponentsBuilder.fromUriString(AUTHORIZATION_URI)
+
+        return UriComponentsBuilder.fromUriString(googleAuthorizationUri)
                 .queryParam("client_id", clientId)
                 .queryParam("redirect_uri", redirectUri)
                 .queryParam("response_type", "code")
@@ -34,26 +47,23 @@ public class OAuth2Client {
                 .toUri();
     }
 
-    public Map<String, String> getAccessToken(String authorizationCode) {
-        RestTemplate restTemplate = new RestTemplate();
-        Map<String, String> request = new HashMap<>();
+    public AuthGoogleAccessTokenResponse getAccessToken(String authorizationCode) {
+        AuthGoogleAccessTokenRequest request = AuthGoogleAccessTokenRequest.of(
+                clientId,
+                clientSecret,
+                redirectUri,
+                "authorization_code",
+                authorizationCode
+        );
 
-        request.put("client_id", clientId);
-        request.put("client_secret", clientSecret);
-        request.put("redirect_uri", redirectUri);
-        request.put("grant_type", "authorization_code");
-        request.put("code", authorizationCode);
-
-        return restTemplate.postForObject(TOKEN_URI, request, Map.class);
+        return restTemplate.postForObject(googleTokenUri, request, AuthGoogleAccessTokenResponse.class);
     }
 
     public Map<String, Object> getUserInfo(String accessToken) {
-        RestTemplate restTemplate = new RestTemplate();
-
-        String uri = UriComponentsBuilder.fromUriString(USER_INFO_URI)
+        String uri = UriComponentsBuilder.fromUriString(googleUserInfoUri)
                 .queryParam("access_token", accessToken)
                 .toUriString();
 
-        return restTemplate.getForObject(uri, Map.class);
+        return restTemplate.exchange(uri, HttpMethod.GET, null, new ParameterizedTypeReference<Map<String, Object>>() {}).getBody();
     }
 }

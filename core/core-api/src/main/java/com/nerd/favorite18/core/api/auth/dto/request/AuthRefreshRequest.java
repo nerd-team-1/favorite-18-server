@@ -1,4 +1,4 @@
-package com.nerd.favorite18.core.api.auth.dto;
+package com.nerd.favorite18.core.api.auth.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

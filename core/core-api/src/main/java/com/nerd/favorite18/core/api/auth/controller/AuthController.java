@@ -2,7 +2,7 @@ package com.nerd.favorite18.core.api.auth.controller;
 
 import com.nerd.favorite18.core.api._common.annotation.UserSession;
 import com.nerd.favorite18.core.api.auth.business.AuthBusiness;
-import com.nerd.favorite18.core.api.auth.dto.AuthRefreshRequest;
+import com.nerd.favorite18.core.api.auth.dto.request.AuthRefreshRequest;
 import com.nerd.favorite18.core.api.jwt.dto.JwtRefreshResponse;
 import com.nerd.favorite18.core.api.support.response.ApiResponse;
 import com.nerd.favorite18.core.api.user.dto.UserDto;

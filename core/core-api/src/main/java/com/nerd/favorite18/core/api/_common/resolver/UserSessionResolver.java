@@ -1,6 +1,8 @@
 package com.nerd.favorite18.core.api._common.resolver;
 
 import com.nerd.favorite18.core.api._common.annotation.UserSession;
+import com.nerd.favorite18.core.api.support.error.CoreApiException;
+import com.nerd.favorite18.core.api.support.error.ErrorType;
 import com.nerd.favorite18.core.api.user.dto.UserDto;
 import com.nerd.favorite18.core.api.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +30,8 @@ public class UserSessionResolver implements HandlerMethodArgumentResolver {
      */
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        var annotation = parameter.hasParameterAnnotation(UserSession.class);
-        var parameterType = parameter.getParameterType().equals(UserDto.class);
+        boolean annotation = parameter.hasParameterAnnotation(UserSession.class);
+        boolean parameterType = parameter.getParameterType().equals(UserDto.class);
 
         return (annotation && parameterType);
     }
@@ -37,7 +39,11 @@ public class UserSessionResolver implements HandlerMethodArgumentResolver {
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         final RequestAttributes requestContext = RequestContextHolder.getRequestAttributes();
+
+        if (requestContext == null) throw new CoreApiException(ErrorType.DEFAULT_ERROR);
         final Object userId = requestContext.getAttribute("userId", RequestAttributes.SCOPE_REQUEST);
+
+        if (userId == null) throw new CoreApiException(ErrorType.DEFAULT_ERROR);
         final UserDto userDto = userService.getUserWithThrow(Long.parseLong(userId.toString()));
 
         // 사용자 정보 세팅
