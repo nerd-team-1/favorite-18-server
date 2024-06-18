@@ -1,8 +1,8 @@
 package com.nerd.favorite18.core.api._common.intercepter;
 
 import com.nerd.favorite18.core.api.jwt.business.JwtBusiness;
-import com.nerd.favorite18.core.api.support.error.CoreApiException;
-import com.nerd.favorite18.core.api.support.error.ErrorType;
+import com.nerd.favorite18.core.api._common.support.error.CoreApiException;
+import com.nerd.favorite18.core.api._common.support.error.ErrorType;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

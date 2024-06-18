@@ -2,7 +2,7 @@ package com.nerd.favorite18.core.api.auth.controller;
 
 import com.nerd.favorite18.core.api.auth.business.AuthBusiness;
 import com.nerd.favorite18.core.api.jwt.dto.JwtResponse;
-import com.nerd.favorite18.core.api.support.response.ApiResponse;
+import com.nerd.favorite18.core.api._common.support.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

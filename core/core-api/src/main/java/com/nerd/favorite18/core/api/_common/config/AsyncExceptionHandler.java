@@ -1,6 +1,6 @@
-package com.nerd.favorite18.core.api.config;
+package com.nerd.favorite18.core.api._common.config;
 
-import com.nerd.favorite18.core.api.support.error.CoreApiException;
+import com.nerd.favorite18.core.api._common.support.error.CoreApiException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

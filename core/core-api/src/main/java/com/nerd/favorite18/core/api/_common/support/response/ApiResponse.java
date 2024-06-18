@@ -1,7 +1,7 @@
-package com.nerd.favorite18.core.api.support.response;
+package com.nerd.favorite18.core.api._common.support.response;
 
-import com.nerd.favorite18.core.api.support.error.ErrorMessage;
-import com.nerd.favorite18.core.api.support.error.ErrorType;
+import com.nerd.favorite18.core.api._common.support.error.ErrorMessage;
+import com.nerd.favorite18.core.api._common.support.error.ErrorType;
 
 public class ApiResponse<S> {
 

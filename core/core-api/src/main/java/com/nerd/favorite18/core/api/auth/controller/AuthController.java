@@ -4,7 +4,7 @@ import com.nerd.favorite18.core.api._common.annotation.UserSession;
 import com.nerd.favorite18.core.api.auth.business.AuthBusiness;
 import com.nerd.favorite18.core.api.auth.dto.request.AuthRefreshRequest;
 import com.nerd.favorite18.core.api.jwt.dto.JwtRefreshResponse;
-import com.nerd.favorite18.core.api.support.response.ApiResponse;
+import com.nerd.favorite18.core.api._common.support.response.ApiResponse;
 import com.nerd.favorite18.core.api.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
