@@ -3,10 +3,9 @@ package com.nerd.favorite18.core.api.user.converter;
 import com.nerd.favorite18.core.api._common.annotation.Converter;
 import com.nerd.favorite18.core.api.user.dto.UserDto;
 import com.nerd.favorite18.core.api.user.dto.request.UserRegisterRequest;
+import com.nerd.favorite18.core.enums.user.UserRole;
+import com.nerd.favorite18.core.enums.user.UserStatus;
 import com.nerd.favorite18.storage.db.core.user.entity.User;
-import com.nerd.favorite18.storage.db.core.user.type.UserRole;
-import com.nerd.favorite18.storage.db.core.user.type.UserStatus;
-
 import java.util.Optional;
 
 @Converter
