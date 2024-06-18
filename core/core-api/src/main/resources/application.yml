@@ -15,6 +15,23 @@ server:
       max: 600
       min-spare: 100
 
+oauth2:
+  google:
+    client-id: ${OAUTH2_GOOGLE_CLIENT_ID}
+    client-secret: ${OAUTH2_GOOGLE_CLIENT_SECRET}
+    redirect-uri: ${OAUTH2_GOOGLE_REDIRECT_URI}
+    authorization-uri: https://accounts.google.com/o/oauth2/auth
+    token-uri: https://oauth2.googleapis.com/token
+    user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+
+token:
+  secret:
+    key: ${TOKEN_SECRET_KEY}
+  access-token:
+    plus-hour: 1
+  refresh-token:
+    plus-hour: 12
+
 ---
 spring.config.activate.on-profile: local
 

@@ -4,9 +4,16 @@ import org.springframework.boot.logging.LogLevel;
 import org.springframework.http.HttpStatus;
 
 public enum ErrorType {
+    USER_NOT_FOUND(HttpStatus.BAD_REQUEST, ErrorCode.E1404, "User is not fonded.", LogLevel.ERROR),
 
-    DEFAULT_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, ErrorCode.E500, "An unexpected error has occurred.",
-            LogLevel.ERROR);
+    INVALID_TOKEN(HttpStatus.BAD_REQUEST, ErrorCode.E2000, "Token is invalided.", LogLevel.ERROR),
+    EXPIRED_TOKEN(HttpStatus.BAD_REQUEST, ErrorCode.E2001, "Token is expired.", LogLevel.ERROR),
+    TOKEN_EXCEPTION(HttpStatus.BAD_REQUEST, ErrorCode.E2002, "An unexpected error with token.", LogLevel.ERROR),
+    AUTHORIZATION_TOKEN_NOT_FOUND(HttpStatus.BAD_REQUEST, ErrorCode.E2003, "No token in the authentication header.", LogLevel.ERROR),
+
+    BAD_REQUEST(HttpStatus.BAD_REQUEST, ErrorCode.E400, "Bad Request", LogLevel.ERROR),
+    NULL_POINT(HttpStatus.INTERNAL_SERVER_ERROR, ErrorCode.E500, "Null point error.", LogLevel.ERROR),
+    DEFAULT_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, ErrorCode.E500, "An unexpected error has occurred.", LogLevel.ERROR);
 
     private final HttpStatus status;
 
