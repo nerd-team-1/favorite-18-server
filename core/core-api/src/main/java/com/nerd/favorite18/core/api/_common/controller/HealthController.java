@@ -1,4 +1,4 @@
-package com.nerd.favorite18.core.api.controller;
+package com.nerd.favorite18.core.api._common.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

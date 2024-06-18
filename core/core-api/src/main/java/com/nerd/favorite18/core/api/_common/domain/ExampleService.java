@@ -1,4 +1,4 @@
-package com.nerd.favorite18.core.api.domain;
+package com.nerd.favorite18.core.api._common.domain;
 
 import org.springframework.stereotype.Service;
 

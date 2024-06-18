@@ -1,4 +1,4 @@
-package com.nerd.favorite18.core.api.config;
+package com.nerd.favorite18.core.api._common.config;
 
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.Configuration;

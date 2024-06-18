@@ -1,7 +1,7 @@
 package com.nerd.favorite18.core.api.user.controller;
 
 import com.nerd.favorite18.core.api._common.annotation.UserSession;
-import com.nerd.favorite18.core.api.support.response.ApiResponse;
+import com.nerd.favorite18.core.api._common.support.response.ApiResponse;
 import com.nerd.favorite18.core.api.user.business.UserBusiness;
 import com.nerd.favorite18.core.api.user.dto.UserDto;
 import com.nerd.favorite18.core.api.user.dto.request.UserUpdateNicknameRequest;

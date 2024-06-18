@@ -1,4 +1,4 @@
-package com.nerd.favorite18.core.api.support.error;
+package com.nerd.favorite18.core.api._common.support.error;
 
 import org.springframework.boot.logging.LogLevel;
 import org.springframework.http.HttpStatus;
