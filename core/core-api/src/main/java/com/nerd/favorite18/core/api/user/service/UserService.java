@@ -1,7 +1,7 @@
 package com.nerd.favorite18.core.api.user.service;
 
-import com.nerd.favorite18.core.api.support.error.CoreApiException;
-import com.nerd.favorite18.core.api.support.error.ErrorType;
+import com.nerd.favorite18.core.api._common.support.error.CoreApiException;
+import com.nerd.favorite18.core.api._common.support.error.ErrorType;
 import com.nerd.favorite18.core.api.user.converter.UserConverter;
 import com.nerd.favorite18.core.api.user.dto.UserDto;
 import com.nerd.favorite18.core.api.user.dto.request.UserRegisterRequest;

@@ -1,11 +1,11 @@
-package com.nerd.favorite18.core.api.controller.v1;
+package com.nerd.favorite18.core.api._common.controller.v1;
 
-import com.nerd.favorite18.core.api.controller.v1.request.ExampleRequestDto;
-import com.nerd.favorite18.core.api.controller.v1.response.ExampleResponseDto;
-import com.nerd.favorite18.core.api.domain.ExampleData;
-import com.nerd.favorite18.core.api.domain.ExampleResult;
-import com.nerd.favorite18.core.api.domain.ExampleService;
-import com.nerd.favorite18.core.api.support.response.ApiResponse;
+import com.nerd.favorite18.core.api._common.controller.v1.request.ExampleRequestDto;
+import com.nerd.favorite18.core.api._common.controller.v1.response.ExampleResponseDto;
+import com.nerd.favorite18.core.api._common.domain.ExampleData;
+import com.nerd.favorite18.core.api._common.domain.ExampleResult;
+import com.nerd.favorite18.core.api._common.domain.ExampleService;
+import com.nerd.favorite18.core.api._common.support.response.ApiResponse;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +25,7 @@ public class ExampleController {
 
     @GetMapping("/get/{exampleValue}")
     public ApiResponse<ExampleResponseDto> exampleGet(@PathVariable String exampleValue,
-            @RequestParam String exampleParam) {
+                                                      @RequestParam String exampleParam) {
         ExampleResult result = exampleExampleService.processExample(new ExampleData(exampleValue, exampleParam));
         return ApiResponse.success(new ExampleResponseDto(result.data()));
     }

@@ -2,8 +2,8 @@ package com.nerd.favorite18.core.api.jwt.service;
 
 import com.nerd.favorite18.core.api.jwt.helper.TokenHelper;
 import com.nerd.favorite18.core.api.jwt.model.Token;
-import com.nerd.favorite18.core.api.support.error.CoreApiException;
-import com.nerd.favorite18.core.api.support.error.ErrorType;
+import com.nerd.favorite18.core.api._common.support.error.CoreApiException;
+import com.nerd.favorite18.core.api._common.support.error.ErrorType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,8 +1,8 @@
-package com.nerd.favorite18.core.api.controller;
+package com.nerd.favorite18.core.api._common.controller;
 
-import com.nerd.favorite18.core.api.support.error.CoreApiException;
-import com.nerd.favorite18.core.api.support.error.ErrorType;
-import com.nerd.favorite18.core.api.support.response.ApiResponse;
+import com.nerd.favorite18.core.api._common.support.error.CoreApiException;
+import com.nerd.favorite18.core.api._common.support.error.ErrorType;
+import com.nerd.favorite18.core.api._common.support.response.ApiResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
