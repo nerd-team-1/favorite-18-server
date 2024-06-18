@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum UserGender implements EnumMapperType {
-    MEN("남자"),
+    MAN("남자"),
     WOMEN("여자");
 
     private final String value;

@@ -4,7 +4,6 @@ import com.nerd.favorite18.core.enums.common.EnumMapper;
 import com.nerd.favorite18.core.enums.qna.AnswerStatus;
 import com.nerd.favorite18.core.enums.qna.QnaProgressStatus;
 import com.nerd.favorite18.core.enums.song.MachineType;
-import com.nerd.favorite18.core.enums.user.RegisterType;
 import com.nerd.favorite18.core.enums.user.UserGender;
 import com.nerd.favorite18.core.enums.user.UserRole;
 import com.nerd.favorite18.core.enums.user.UserStatus;
@@ -25,7 +24,6 @@ public class EnumCodeConfig {
         enumMapper.put(MachineType.class);
 
         // User
-        enumMapper.put(RegisterType.class);
         enumMapper.put(UserGender.class);
         enumMapper.put(UserRole.class);
         enumMapper.put(UserStatus.class);

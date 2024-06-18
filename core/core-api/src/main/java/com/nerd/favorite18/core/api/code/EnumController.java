@@ -1,8 +1,8 @@
 package com.nerd.favorite18.core.api.code;
 
-import com.nerd.favorite18.core.api.support.error.CoreApiException;
-import com.nerd.favorite18.core.api.support.error.ErrorType;
-import com.nerd.favorite18.core.api.support.response.ApiResponse;
+import com.nerd.favorite18.core.api._common.support.error.CoreApiException;
+import com.nerd.favorite18.core.api._common.support.error.ErrorType;
+import com.nerd.favorite18.core.api._common.support.response.ApiResponse;
 import com.nerd.favorite18.core.enums.common.EnumMapper;
 import com.nerd.favorite18.core.enums.common.EnumMapperValue;
 import java.util.List;
