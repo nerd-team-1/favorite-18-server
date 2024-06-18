@@ -1,11 +1,19 @@
 package com.nerd.favorite18.storage.db.core.user.entity;
 
+import com.nerd.favorite18.core.enums.user.UserGender;
+import com.nerd.favorite18.core.enums.user.UserRole;
+import com.nerd.favorite18.core.enums.user.UserStatus;
 import com.nerd.favorite18.storage.db.core.BaseEntity;
-import com.nerd.favorite18.storage.db.core.user.type.UserGender;
-import com.nerd.favorite18.storage.db.core.user.type.UserRole;
-import com.nerd.favorite18.storage.db.core.user.type.UserStatus;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "tbl_user")

@@ -1,13 +1,12 @@
 package com.nerd.favorite18.core.api.user.dto;
 
-import com.nerd.favorite18.storage.db.core.user.type.UserGender;
-import com.nerd.favorite18.storage.db.core.user.type.UserRole;
-import com.nerd.favorite18.storage.db.core.user.type.UserStatus;
+import com.nerd.favorite18.core.enums.user.UserGender;
+import com.nerd.favorite18.core.enums.user.UserRole;
+import com.nerd.favorite18.core.enums.user.UserStatus;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor

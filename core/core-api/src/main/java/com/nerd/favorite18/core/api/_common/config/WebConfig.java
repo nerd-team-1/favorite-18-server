@@ -24,7 +24,8 @@ public class WebConfig implements WebMvcConfigurer {
             "/",
             "/favicon.ico",
             "/health",
-            "/error"
+            "/error",
+            "/enum/**"
     );
 
     private final List<String> SWAGGER = List.of(
