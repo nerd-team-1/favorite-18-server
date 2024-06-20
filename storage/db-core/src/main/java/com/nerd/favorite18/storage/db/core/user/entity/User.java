@@ -90,4 +90,8 @@ public class User extends BaseEntity {
     public void updateStatus(UserStatus status) {
         this.status = status;
     }
+
+    public boolean isUserStatusInactive() {
+        return this.status != UserStatus.ACTIVE;
+    }
 }

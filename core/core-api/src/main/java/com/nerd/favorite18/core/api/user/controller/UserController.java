@@ -22,7 +22,7 @@ public class UserController {
     }
 
     // 사용자 닉네임 변경
-    @PutMapping("/set-nickname")
+    @PutMapping("/nickname")
     public ApiResponse<Void> updateNickname(@UserSession UserDto user, @RequestBody UserUpdateNicknameRequest request) {
         userBusiness.updateNickname(user, request);
 

@@ -13,8 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -31,11 +29,10 @@ public class UserService {
      */
     @Transactional
     public UserDto getUserAndUpdateStatusWithThrow(String subId, String email) {
-        User userEntity = Optional.ofNullable(
-                userRepository.findFirstBySubIdAndEmailOrderByIdDesc(subId, email)
-        ).orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
+        User userEntity = userRepository.findFirstBySubIdAndEmailOrderByIdDesc(subId, email)
+                .orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
 
-        if (userEntity.getStatus() != UserStatus.ACTIVE) {
+        if (userEntity.isUserStatusInactive()) {
             userEntity.updateStatus(UserStatus.ACTIVE);
 
             userEntity = userRepository.save(userEntity);
@@ -52,9 +49,8 @@ public class UserService {
      */
     @Transactional(readOnly = true)
     public UserDto getUserActiveWithThrow(Long userId) {
-        User userEntity = Optional.ofNullable(
-                userRepository.findFirstByIdAndStatusOrderByIdDesc(userId, UserStatus.ACTIVE)
-        ).orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
+        User userEntity = userRepository.findFirstByIdAndStatusOrderByIdDesc(userId, UserStatus.ACTIVE)
+                .orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
 
         return userConverter.toDto(userEntity);
     }
@@ -82,9 +78,8 @@ public class UserService {
      */
     @Transactional
     public void updateNickname(UserDto user, UserUpdateNicknameRequest request) {
-        User userEntity = Optional.ofNullable(
-                userRepository.findFirstByIdAndStatusOrderByIdDesc(user.getId(), UserStatus.ACTIVE)
-        ).orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
+        User userEntity = userRepository.findFirstByIdAndStatusOrderByIdDesc(user.getId(), UserStatus.ACTIVE)
+                .orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
 
         userEntity.updateNickname(request.getNickname());
 
@@ -98,9 +93,8 @@ public class UserService {
      */
     @Transactional
     public void deleteUser(UserDto user) {
-        User userEntity = Optional.ofNullable(
-                userRepository.findFirstByIdAndStatusOrderByIdDesc(user.getId(), UserStatus.ACTIVE)
-        ).orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
+        User userEntity = userRepository.findFirstByIdAndStatusOrderByIdDesc(user.getId(), UserStatus.ACTIVE)
+                .orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
 
         userEntity.updateStatus(UserStatus.DELETE);
 
