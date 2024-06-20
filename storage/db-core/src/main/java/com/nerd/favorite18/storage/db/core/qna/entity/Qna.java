@@ -7,6 +7,7 @@ import com.nerd.favorite18.storage.db.core.user.entity.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.Comment;
 
 @Entity
 @Table(name = "tbl_qna")
@@ -14,30 +15,39 @@ import lombok.*;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Qna extends BaseEntity {
+    @Comment("문의자 ID")
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "QNA_USER_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
     private User qnaUser;
 
+    @Comment("문의 제목")
     @Column(length = 100, nullable = false)
     private String title;
 
-    @NotNull
+    @Comment("문의 내용")
+    @Column(nullable = false)
     @Lob
     private String content;
 
-    @NotNull
+    @Comment("진행 상태 : UNPROCESSED, IN_PROGRESS, ON_HOLD, COMPLETED")
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private QnaProgressStatus progressStatus;
 
-    @NotNull
+
+    @Comment("답변 상태 : NO_REPLY, REPLIED")
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private AnswerStatus answerStatus;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Comment("답변자 ID")
     @JoinColumn(name = "ADMIN_USER_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
     private User adminUser;
 
+    @Comment("답변 내용")
+    @Column
     @Lob
     private String answerContent;
 

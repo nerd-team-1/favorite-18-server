@@ -2,14 +2,10 @@ package com.nerd.favorite18.storage.db.core.qna.projection;
 
 import com.nerd.favorite18.core.enums.qna.AnswerStatus;
 import com.nerd.favorite18.core.enums.qna.QnaProgressStatus;
+import com.nerd.favorite18.storage.db.core.BaseProjection;
 
-import java.time.LocalDateTime;
-
-public interface QnaListResponse {
-    Long getId();
+public interface QnaListResponse extends BaseProjection {
     String getTitle();
     QnaProgressStatus getProgressStatus();
     AnswerStatus getAnswerStatus();
-    LocalDateTime getCreatedAt();
-    LocalDateTime getUpdatedAt();
 }
