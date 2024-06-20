@@ -34,7 +34,10 @@ public class QnaService {
                 userRepository.findFirstByIdAndStatusOrderByIdDesc(userDto.getId(), UserStatus.ACTIVE)
         ).orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
 
-        return qnaRepository.findAllByQnaUserOrderByCreatedAtDesc(userEntity, pageable);
+        final Page<QnaListResponse> qnas = qnaRepository.findAllByQnaUserOrderByCreatedAtDesc(userEntity, pageable);
+        if (qnas == null) throw new CoreApiException(ErrorType.NULL_POINT);
+
+        return qnas;
     }
 
     public QnaDto getQna(UserDto userDto, Long id) {
@@ -42,7 +45,8 @@ public class QnaService {
                 userRepository.findFirstByIdAndStatusOrderByIdDesc(userDto.getId(), UserStatus.ACTIVE)
         ).orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
 
-        Qna qnaEntity =  qnaRepository.findByIdAndQnaUserOrderByIdDesc(id, userEntity);
+        Qna qnaEntity =  qnaRepository.findByIdAndQnaUserOrderByIdDesc(id, userEntity)
+                .orElseThrow(() -> new CoreApiException(ErrorType.NULL_POINT));
 
         return qnaConverter.toDto(qnaEntity);
     }
