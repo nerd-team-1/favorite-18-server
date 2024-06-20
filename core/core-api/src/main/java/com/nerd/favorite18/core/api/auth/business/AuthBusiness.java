@@ -59,7 +59,8 @@ public class AuthBusiness {
         // 구글 유저 정보 기반으로 유저를 조회
         UserDto userDto;
         try {
-            userDto = userService.getUserWithThrow(googleUserInfo.getSubId(), googleUserInfo.getEmail());
+            // 유저 조회하고 있으면 바로 반환, 만약 유저 상태가 ACTIVE 가 아니면 ACTIVE 로 바꾸고 사용자 반환
+            userDto = userService.getUserAndUpdateStatusWithThrow(googleUserInfo.getSubId(), googleUserInfo.getEmail());
         } catch (RuntimeException e) {
             // 조회되지 않으면 강제 회원가입 후 유저 반환
             userDto = userService.saveUser(UserRegisterRequest.of(
