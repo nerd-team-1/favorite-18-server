@@ -18,8 +18,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -30,9 +28,8 @@ public class QnaService {
     private final UserRepository userRepository;
 
     public Page<QnaListResponse> getMyQna(UserDto userDto, Pageable pageable) {
-        User userEntity = Optional.ofNullable(
-                userRepository.findFirstByIdAndStatusOrderByIdDesc(userDto.getId(), UserStatus.ACTIVE)
-        ).orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
+        User userEntity = userRepository.findFirstByIdAndStatusOrderByIdDesc(userDto.getId(), UserStatus.ACTIVE)
+                .orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
 
         final Page<QnaListResponse> qnas = qnaRepository.findAllByQnaUserOrderByCreatedAtDesc(userEntity, pageable);
         if (qnas == null) throw new CoreApiException(ErrorType.NULL_POINT);
@@ -41,9 +38,8 @@ public class QnaService {
     }
 
     public QnaDto getQna(UserDto userDto, Long id) {
-        User userEntity = Optional.ofNullable(
-                userRepository.findFirstByIdAndStatusOrderByIdDesc(userDto.getId(), UserStatus.ACTIVE)
-        ).orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
+        User userEntity = userRepository.findFirstByIdAndStatusOrderByIdDesc(userDto.getId(), UserStatus.ACTIVE)
+                .orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
 
         Qna qnaEntity =  qnaRepository.findByIdAndQnaUserOrderByIdDesc(id, userEntity)
                 .orElseThrow(() -> new CoreApiException(ErrorType.NULL_POINT));
@@ -52,9 +48,8 @@ public class QnaService {
     }
 
     public Qna insertQna(UserDto userDto, QnaAddRequest request) {
-        User userEntity = Optional.ofNullable(
-                userRepository.findFirstByIdAndStatusOrderByIdDesc(userDto.getId(), UserStatus.ACTIVE)
-        ).orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
+        User userEntity = userRepository.findFirstByIdAndStatusOrderByIdDesc(userDto.getId(), UserStatus.ACTIVE)
+                .orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
 
         Qna qnaEntity = qnaConverter.toEntity(userEntity, request);
 
