@@ -6,6 +6,8 @@ import org.springframework.http.HttpStatus;
 public enum ErrorType {
     USER_NOT_FOUND(HttpStatus.BAD_REQUEST, ErrorCode.E1404, "User is not fonded.", LogLevel.ERROR),
 
+    QNA_NOT_FOUND(HttpStatus.BAD_REQUEST, ErrorCode.E3404, "Qna is not fonded.", LogLevel.ERROR),
+
     INVALID_TOKEN(HttpStatus.BAD_REQUEST, ErrorCode.E2000, "Token is invalided.", LogLevel.ERROR),
     EXPIRED_TOKEN(HttpStatus.BAD_REQUEST, ErrorCode.E2001, "Token is expired.", LogLevel.ERROR),
     TOKEN_EXCEPTION(HttpStatus.BAD_REQUEST, ErrorCode.E2002, "An unexpected error with token.", LogLevel.ERROR),

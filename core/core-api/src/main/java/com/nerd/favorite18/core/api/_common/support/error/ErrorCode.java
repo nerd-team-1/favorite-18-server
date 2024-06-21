@@ -6,6 +6,7 @@ public enum ErrorCode {
     E2001,
     E2002,
     E2003,
+    E3404,
     E400,
     E500
 

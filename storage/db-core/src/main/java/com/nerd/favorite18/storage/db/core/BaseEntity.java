@@ -1,11 +1,10 @@
 package com.nerd.favorite18.storage.db.core;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
-
+import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -19,11 +18,11 @@ public abstract class BaseEntity {
     private Long id;
 
     @CreationTimestamp
-    @Column
+    @Comment("생성 일자")
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column
+    @Comment("수정 일자")
     private LocalDateTime updatedAt;
 
     public Long getId() {
