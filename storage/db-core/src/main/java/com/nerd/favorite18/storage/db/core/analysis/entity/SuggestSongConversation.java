@@ -22,7 +22,7 @@ public class SuggestSongConversation extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private SuggestSong suggestSong;
 
-    @Comment("내화내용")
+    @Comment("대화내용")
     @Column(name = "CONVERSATION", nullable = false)
     private String conversation;
 
