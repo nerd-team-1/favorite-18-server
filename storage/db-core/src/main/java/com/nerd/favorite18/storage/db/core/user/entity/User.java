@@ -14,36 +14,49 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Comment;
 
 @Entity
 @Table(name = "tbl_user")
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
+    @Comment("사용자 ID : provider_sub")
     @Column(length = 100, nullable = false)
     private String subId;
 
+    @Comment("사용자 이메일")
     @Column(length = 50, nullable = false)
     private String email;
 
+    @Comment("사용자 이름")
     @Column(length = 20)
     private String name;
 
+    @Comment("사용자 별명")
     @Column(length = 30)
     private String nickname;
 
-    @Column(length = 20)
+    @Comment("사용자 생일")
+    @Setter @Column(length = 20)
     private String birth;
 
+    @Comment("사용자 성별 : MAN, WOMEN")
+    @Setter @Column
     @Enumerated(EnumType.STRING)
     private UserGender gender;
 
+    @Comment("사용자 프로필 섬네일 링크")
+    @Column
     private String thumbnail;
 
+    @Comment("사용자 권한 : ADMIN, USER")
+    @Setter @Column
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    @Comment("사용자 활성상태 : NOT_ACTIVE, ACTIVE, SUSPENSION, DELETE")
+    @Column
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
@@ -72,5 +85,13 @@ public class User extends BaseEntity {
 
     public void updateNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public void updateStatus(UserStatus status) {
+        this.status = status;
+    }
+
+    public boolean isUserStatusInactive() {
+        return this.status != UserStatus.ACTIVE;
     }
 }

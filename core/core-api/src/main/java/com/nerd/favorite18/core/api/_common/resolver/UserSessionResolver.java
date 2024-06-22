@@ -44,7 +44,7 @@ public class UserSessionResolver implements HandlerMethodArgumentResolver {
         final Object userId = requestContext.getAttribute("userId", RequestAttributes.SCOPE_REQUEST);
 
         if (userId == null) throw new CoreApiException(ErrorType.DEFAULT_ERROR);
-        final UserDto userDto = userService.getUserWithThrow(Long.parseLong(userId.toString()));
+        final UserDto userDto = userService.getUserActiveWithThrow(Long.parseLong(userId.toString()));
 
         // 사용자 정보 세팅
         return userDto;
