@@ -37,9 +37,9 @@ public class Song extends BaseEntity {
     private String albumPictureUrl;
 
     @Comment("노래 가사")
-    @Column(name = "LYLICS")
+    @Column(name = "LYRICS")
     @Lob
-    private String lylics;
+    private String lyrics;
 
     @Comment("점수 비교가 가능한 파일 경로")
     @Column(name = "SCORE_COMPARE_URL")
@@ -64,14 +64,14 @@ public class Song extends BaseEntity {
         String title,
         String artist,
         String albumPictureUrl,
-        String lylics,
+        String lyrics,
         String scoreCompareUrl,
         String compareTitle
     ) {
         this.title = title;
         this.artist = artist;
         this.albumPictureUrl = albumPictureUrl;
-        this.lylics = lylics;
+        this.lyrics = lyrics;
         this.scoreCompareUrl = scoreCompareUrl;
         this.compareTitle = compareTitle;
     }
