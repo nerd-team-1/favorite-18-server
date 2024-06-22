@@ -11,6 +11,7 @@ import java.util.Optional;
 @Converter
 public class UserConverter {
     public User toEntity(UserRegisterRequest request) {
+
         return Optional.ofNullable(request)
                 .map(it -> User.builder()
                         .subId(request.getSubId())
