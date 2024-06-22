@@ -1,6 +1,7 @@
-package com.nerd.favorite18.storage.db.core.ranking;
+package com.nerd.favorite18.storage.db.core.ranking.entity;
 
 import com.nerd.favorite18.storage.db.core.BaseEntity;
+import com.nerd.favorite18.storage.db.core.song.entity.Song;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -16,15 +17,15 @@ import java.sql.Date;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Rank extends BaseEntity {
 
+    @Comment("노래 정보")
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "SONG_ID")
-    @Comment("노래 정보")
     private Song rankSong;
 
+    @Comment("랭킹 날짜")
     @NotNull
     @CreationTimestamp
-    @Comment("랭킹 날짜")
     private Date RankDate;
 
     @Column(length = 3)

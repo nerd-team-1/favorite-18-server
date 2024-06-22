@@ -1,5 +1,6 @@
 package com.nerd.favorite18.core.api.ranking.dto;
 
+import com.nerd.favorite18.storage.db.core.song.entity.Song;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
