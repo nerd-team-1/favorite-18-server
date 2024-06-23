@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/admin/songs")
+@RequestMapping("/admin-api/v1/songs")
 public class SongAdminController {
     private final SongBusiness songBusiness;
 
