@@ -19,6 +19,7 @@ import org.springframework.util.StringUtils;
 
 @Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class SongManageService {
 
@@ -26,7 +27,6 @@ public class SongManageService {
     private final SongRepository songRepository;
     private final SongConverter songConverter;
 
-    @Transactional
     public SongResponse createSong(UserDto user, SongCreateRequest request) {
         isValidRequestUserAdmin(user);
 
@@ -47,7 +47,6 @@ public class SongManageService {
         return songConverter.toSongResponseByEntity(resultEntity);
     }
 
-    @Transactional
     public SongResponse updateSong(UserDto user, SongUpdateRequest request) {
         isValidRequestUserAdmin(user);
 
@@ -62,7 +61,6 @@ public class SongManageService {
     }
 
 
-    @Transactional
     public void deleteSong(UserDto user, Long songId) {
         isValidRequestUserAdmin(user);
 

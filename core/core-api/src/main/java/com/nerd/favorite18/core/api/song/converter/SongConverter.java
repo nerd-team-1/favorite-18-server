@@ -61,26 +61,23 @@ public class SongConverter {
             .lyrics(song.getLyrics())
             .scoreCompareUrl(song.getScoreCompareUrl())
             .machineCodes(toSongCodeResponseListByEntity(song.getSongCodes()))
+            .createdAt(song.getCreatedAt())
+            .updatedAt(song.getUpdatedAt())
             .build();
     }
 
     public SongResponse toSongResponseWithFavoriteCountByEntity(Song song) {
-        return SongResponse.builder()
-            .songId(song.getId())
-            .title(song.getTitle())
-            .artist(song.getArtist())
-            .albumUrl(song.getAlbumPictureUrl())
-            .lyrics(song.getLyrics())
-            .scoreCompareUrl(song.getScoreCompareUrl())
-            .machineCodes(toSongCodeResponseListByEntity(song.getSongCodes()))
-            .totalFavoriteCount(song.getTotalLikeCnt())
-            .build();
+        SongResponse response = this.toSongResponseByEntity(song);
+        response.setTotalFavoriteCount(song.getTotalLikeCnt());
+        return response;
     }
 
     public SongCodeResponse toSongCodeResponseByEntity(SongCode songCode) {
         return SongCodeResponse.builder()
             .machineType(songCode.getMachineType())
             .songCode(songCode.getSongNum())
+            .createdAt(songCode.getCreatedAt())
+            .updatedAt(songCode.getUpdatedAt())
             .build();
     }
 

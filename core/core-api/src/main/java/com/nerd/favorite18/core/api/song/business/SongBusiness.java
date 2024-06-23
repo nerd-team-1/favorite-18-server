@@ -9,14 +9,27 @@ import com.nerd.favorite18.core.api.song.service.SongManageService;
 import com.nerd.favorite18.core.api.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Business
+@Transactional
 @RequiredArgsConstructor
 public class SongBusiness {
     private final SongSelectService songSelectService;
     private final SongManageService songManageService;
+
+    @Transactional(readOnly = true)
+    public SongResponse getSong(Long songId) {
+        return songSelectService.getSong(songId);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<SongResponse> getSongListPage(String keyword, Pageable pageable) {
+        return songSelectService.getSongListPage(keyword, pageable);
+    }
 
     @Transactional
     public SongResponse createSong(UserDto user, SongCreateRequest request) {

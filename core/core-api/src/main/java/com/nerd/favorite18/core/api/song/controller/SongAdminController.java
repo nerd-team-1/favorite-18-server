@@ -9,12 +9,16 @@ import com.nerd.favorite18.core.api.song.dto.response.SongResponse;
 import com.nerd.favorite18.core.api.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -24,13 +28,25 @@ import org.springframework.web.bind.annotation.RestController;
 public class SongAdminController {
     private final SongBusiness songBusiness;
 
-
     /** 노래 리스트 전체 조회 */
+    @GetMapping
+    public ApiResponse<Page<SongResponse>> getSongs(
+        @RequestParam(name = "keyword", required = false) String keyword,
+        Pageable pageable
+    ) {
+        return ApiResponse.success(songBusiness.getSongListPage(keyword, pageable));
+    }
+
+    /* 노래 단건 조회 **/
+    @GetMapping("/{id}")
+    public ApiResponse<SongResponse> getSong(@PathVariable("id") Long songId) {
+        return ApiResponse.success(songBusiness.getSong(songId));
+    }
 
 
     /** 노래 수동 등록 */
     @PostMapping
-    private ApiResponse<SongResponse> createSong(
+    public ApiResponse<SongResponse> createSong(
         @UserSession UserDto user,
         @RequestBody SongCreateRequest songCreateRequest
     ) {
@@ -40,16 +56,20 @@ public class SongAdminController {
 
     /** 노래 정보 수정 */
     @PutMapping
-    private void updateSong(
+    public ApiResponse<Void> updateSong(
         @UserSession UserDto user,
         @RequestBody SongUpdateRequest songUpdateRequest
     ) {
         songBusiness.updateSong(user, songUpdateRequest);
+        return ApiResponse.success();
     }
 
     /** 노래 정보 삭제 */
     @DeleteMapping("/{id}")
-    private ApiResponse<Void> deleteSong(@UserSession UserDto user, @PathVariable("id") Long songId) {
+    public ApiResponse<Void> deleteSong(
+        @UserSession UserDto user,
+        @PathVariable("id") Long songId
+    ) {
         songBusiness.deleteSong(user, songId);
         return ApiResponse.success();
     }
