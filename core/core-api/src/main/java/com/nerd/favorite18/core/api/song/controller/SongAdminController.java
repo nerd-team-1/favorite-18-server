@@ -51,7 +51,7 @@ public class SongAdminController {
         @UserSession UserDto user,
         @RequestBody @Validated SongCreateRequest songCreateRequest
     ) {
-        return ApiResponse.success(songBusiness.createSong(user, songCreateRequest));
+        return ApiResponse.success(songBusiness.createSong(songCreateRequest));
     }
 
 
@@ -61,7 +61,7 @@ public class SongAdminController {
         @UserSession UserDto user,
         @RequestBody @Validated SongUpdateRequest songUpdateRequest
     ) {
-        songBusiness.updateSong(user, songUpdateRequest);
+        songBusiness.updateSong(songUpdateRequest);
         return ApiResponse.success();
     }
 
@@ -71,7 +71,7 @@ public class SongAdminController {
         @UserSession UserDto user,
         @PathVariable("id") Long songId
     ) {
-        songBusiness.deleteSong(user, songId);
+        songBusiness.deleteSong(songId);
         return ApiResponse.success();
     }
 }

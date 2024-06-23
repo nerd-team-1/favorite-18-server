@@ -32,17 +32,17 @@ public class SongBusiness {
     }
 
     @Transactional
-    public SongResponse createSong(UserDto user, SongCreateRequest request) {
-        return songManageService.createSong(user, request);
+    public SongResponse createSong(SongCreateRequest request) {
+        return songManageService.createSong(request);
     }
 
     @Transactional
-    public SongResponse updateSong(UserDto user, SongUpdateRequest request) {
-        return songManageService.updateSong(user,request);
+    public SongResponse updateSong(SongUpdateRequest request) {
+        return songManageService.updateSong(request);
     }
 
     @Transactional
-    public void deleteSong(UserDto user, Long songId) {
-        songManageService.deleteSong(user, songId);
+    public void deleteSong(Long songId) {
+        songManageService.deleteSong(songId);
     }
 }

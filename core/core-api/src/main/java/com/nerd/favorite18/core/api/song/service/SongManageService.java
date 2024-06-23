@@ -27,9 +27,7 @@ public class SongManageService {
     private final SongRepository songRepository;
     private final SongConverter songConverter;
 
-    public SongResponse createSong(UserDto user, SongCreateRequest request) {
-        isValidRequestUserAdmin(user);
-
+    public SongResponse createSong(SongCreateRequest request) {
         final Song requestEntity = songConverter.toSongEntityByCreateRequest(request);
 
         // 중복된 노래 존재여부 확인
@@ -47,9 +45,7 @@ public class SongManageService {
         return songConverter.toSongResponseByEntity(resultEntity);
     }
 
-    public SongResponse updateSong(UserDto user, SongUpdateRequest request) {
-        isValidRequestUserAdmin(user);
-
+    public SongResponse updateSong(SongUpdateRequest request) {
         final Song updateEntity = songRepository.findById(request.getSongId())
             .orElseThrow(() -> new CoreApiException(ErrorType.NOT_FOUND));
 
@@ -61,31 +57,11 @@ public class SongManageService {
     }
 
 
-    public void deleteSong(UserDto user, Long songId) {
-        isValidRequestUserAdmin(user);
-
+    public void deleteSong(Long songId) {
         final Song song = songRepository.findById(songId)
             .orElseThrow(() -> new CoreApiException(ErrorType.NOT_FOUND));
 
         songRepository.delete(song);
-    }
-
-    /**
-     * 요청자가 관리지인지, 일반사용자인지 여부를 확인한다.
-     */
-    private void isValidRequestUserAdmin(UserDto user) {
-        userRepository.findFirstByIdAndStatusOrderByIdDesc(user.getId(), UserStatus.ACTIVE)
-            .ifPresentOrElse(
-                requestUser -> {
-                    if (!requestUser.isUserRoleAdmin()) {
-                        throw new CoreApiException(ErrorType.FORBIDDEN);
-                    }
-                },
-                () -> {
-                    // {}로 감싸지 않으면, Exception이 발생하지 않음.
-                    throw new CoreApiException(ErrorType.USER_NOT_FOUND);
-                }
-            );
     }
 
     private void updateSongEntity(Song song, SongUpdateRequest request) {
