@@ -9,6 +9,7 @@ import org.hibernate.annotations.Comment;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tbl_rank")
@@ -26,21 +27,23 @@ public class Rank extends BaseEntity {
     @Comment("랭킹 날짜")
     @NotNull
     @CreationTimestamp
-    private Date RankDate;
+    private LocalDateTime rankDate;
 
+    @Comment("랭킹 순위")
     @Column(length = 3)
     private String rank;
 
+    @Comment("검색 횟수")
     private Long searchCnt;
 
     @Builder
     public Rank(Song rankSong,
-                Date rankDate,
+                LocalDateTime rankDate,
                 String rank,
                 Long searchCnt
     ) {
         this.rankSong = rankSong;
-        this.RankDate = rankDate;
+        this.rankDate = rankDate;
         this.rank = rank;
         this.searchCnt = searchCnt;
     }

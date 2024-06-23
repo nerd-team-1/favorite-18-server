@@ -18,18 +18,18 @@ import java.util.Optional;
 @Converter
 public class RankConverter {
     public RankDto toDto(Rank entity) {
-//        public Rank toEntity(Song songEntity, RankAddRequest request) {
-//
-//            return Optional.ofNullable(request)
-//                    .map(it -> Qna.builder()
-//                            .qnaUser(userEntity)
-//                            .title(request.getTitle())
-//                            .content(request.getContent())
-//                            .progressStatus(QnaProgressStatus.UNPROCESSED)
-//                            .answerStatus(AnswerStatus.NO_REPLY)
-//                            .build())
-//                    .orElseThrow(() -> new CoreApiException(ErrorType.NULL_POINT));
-//        }
+       /* public Rank toEntity(Song songEntity, RankAddRequest request) {
+
+            return Optional.ofNullable(request)
+                    .map(it -> Rank.builder()
+                            .qnaUser(userEntity)
+                            .title(request.getTitle())
+                            .content(request.getContent())
+                            .progressStatus(QnaProgressStatus.UNPROCESSED)
+                            .answerStatus(AnswerStatus.NO_REPLY)
+                            .build())
+                    .orElseThrow(() -> new CoreApiException(ErrorType.NULL_POINT));
+        }*/
 
         return RankDto.of(
                 entity.getId(),

@@ -9,5 +9,5 @@ import java.util.Date;
 import java.util.Optional;
 
 public interface RankRepository extends JpaRepository<Rank, Long> {
-    Optional<Rank> findByRankDateOrderBySearchCntDesc(LocalDateTime rankDate, String machineType);
+    Optional<Rank> findByRankDateOrderBySearchCntDesc(LocalDateTime rankDate);
 }

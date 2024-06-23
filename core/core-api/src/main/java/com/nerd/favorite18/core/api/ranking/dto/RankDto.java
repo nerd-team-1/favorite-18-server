@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class RankDto {
     private Long id;
     private Song rankSong;
-    private Date rankDate;
+    private LocalDateTime rankDate;
     private String rank;
     private Long searchCnt;
     private LocalDateTime createdAt;
@@ -23,7 +23,7 @@ public class RankDto {
     public static RankDto of(
             Long id,
             Song rankSong,
-            Date rankDate,
+            LocalDateTime rankDate,
             String rank,
             Long searchCnt,
             LocalDateTime createdAt,
