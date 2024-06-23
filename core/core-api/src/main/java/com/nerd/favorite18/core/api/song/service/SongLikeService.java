@@ -10,6 +10,7 @@ import com.nerd.favorite18.core.enums.user.UserStatus;
 import com.nerd.favorite18.storage.db.core.song.projection.SongLikeProjection;
 import com.nerd.favorite18.storage.db.core.song.entity.Song;
 import com.nerd.favorite18.storage.db.core.song.entity.SongLike;
+import com.nerd.favorite18.storage.db.core.song.projection.SongProjection;
 import com.nerd.favorite18.storage.db.core.song.repository.SongLikeRepository;
 import com.nerd.favorite18.storage.db.core.song.repository.SongRepository;
 import com.nerd.favorite18.storage.db.core.user.entity.User;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 @RequiredArgsConstructor
 @Service
@@ -35,13 +37,20 @@ public class SongLikeService {
                 .orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
 
         final Page<SongLikeProjection> projections = songLikeRepository.findAllBySongLikeUserOrderByCreatedAtDesc(userEntity, pageable);
-        if (projections == null) throw new CoreApiException(ErrorType.NULL_POINT);
 
-        return projections.map(it -> SongLikeDto.of(
-                it.getId(),
-                SongDto.of(it.getSong().getId(), it.getSong().getTitle(), it.getSong().getArtist(), it.getSong().getAlbumPictureUrl()),
-                it.getCreatedAt(),
-                it.getUpdatedAt())
+        if (ObjectUtils.isEmpty(projections)) {
+            throw new CoreApiException(ErrorType.NULL_POINT);
+        }
+
+        return projections.map(page -> {
+                SongProjection song = page.getSong();
+                
+                return SongLikeDto.of(
+                    page.getId(),
+                    SongDto.of(song.getId(), song.getTitle(), song.getArtist(), song.getAlbumPictureUrl()),
+                    page.getCreatedAt(),
+                    page.getUpdatedAt());
+            }
         );
     }
 
