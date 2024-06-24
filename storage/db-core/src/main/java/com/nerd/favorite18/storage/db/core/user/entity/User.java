@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Comment;
 
+@Comment("사용자 정보")
 @Entity
 @Table(name = "tbl_user")
 @Getter
@@ -85,6 +86,10 @@ public class User extends BaseEntity {
 
     public void updateNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public void updateUserRole(UserRole role) {
+        this.role = role;
     }
 
     public void updateStatus(UserStatus status) {

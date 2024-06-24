@@ -3,10 +3,11 @@ package com.nerd.favorite18.core.api.user.dto;
 import com.nerd.favorite18.core.enums.user.UserGender;
 import com.nerd.favorite18.core.enums.user.UserRole;
 import com.nerd.favorite18.core.enums.user.UserStatus;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -24,6 +25,15 @@ public class UserDto {
     private UserStatus status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    public UserDto(Long id, UserRole role) {
+        this.id = id;
+        this.role = role;
+    }
+
+    public static UserDto of(Long id, UserRole role) {
+        return new UserDto(id, role);
+    }
 
     public static UserDto of(
             Long id,

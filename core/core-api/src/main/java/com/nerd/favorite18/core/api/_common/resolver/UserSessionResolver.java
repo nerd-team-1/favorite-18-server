@@ -6,6 +6,7 @@ import com.nerd.favorite18.core.api._common.support.error.ErrorType;
 import com.nerd.favorite18.core.api.user.dto.UserDto;
 import com.nerd.favorite18.core.api.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -40,10 +41,16 @@ public class UserSessionResolver implements HandlerMethodArgumentResolver {
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         final RequestAttributes requestContext = RequestContextHolder.getRequestAttributes();
 
-        if (requestContext == null) throw new CoreApiException(ErrorType.DEFAULT_ERROR);
+        if (ObjectUtils.isEmpty(requestContext)) {
+            throw new CoreApiException(ErrorType.NULL_POINT);
+        }
+
         final Object userId = requestContext.getAttribute("userId", RequestAttributes.SCOPE_REQUEST);
 
-        if (userId == null) throw new CoreApiException(ErrorType.DEFAULT_ERROR);
+        if (ObjectUtils.isEmpty(userId)) {
+            throw new CoreApiException(ErrorType.NULL_POINT);
+        }
+
         final UserDto userDto = userService.getUserActiveWithThrow(Long.parseLong(userId.toString()));
 
         // 사용자 정보 세팅
