@@ -9,7 +9,6 @@ import com.nerd.favorite18.core.enums.user.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -19,17 +18,13 @@ public class JwtService {
     private final TokenHelper tokenHelper;
 
     public Token issueAccessToken(UserDto userDto) {
-        var data = new HashMap<String, Object>();
-        data.put("userId", userDto.getId());
-        data.put("userRole", userDto.getRole());
+        Map<String, Object> data = getClaimData(userDto);
 
         return tokenHelper.issueAccessToken(data);
     }
 
     public Token issueRefreshToken(UserDto userDto) {
-        var data = new HashMap<String, Object>();
-        data.put("userId", userDto.getId());
-        data.put("userRole", userDto.getRole());
+        Map<String, Object> data = getClaimData(userDto);
 
         return tokenHelper.issueRefreshToken(data);
     }
@@ -45,6 +40,14 @@ public class JwtService {
         return UserDto.of(
                 Long.parseLong(userId.toString()),
                 UserRole.valueOf(userRole.toString())
+        );
+    }
+
+    private Map<String, Object> getClaimData(UserDto userDto) {
+
+        return Map.of(
+                "userId", userDto.getId(),
+                "userRole", userDto.getRole()
         );
     }
 }
