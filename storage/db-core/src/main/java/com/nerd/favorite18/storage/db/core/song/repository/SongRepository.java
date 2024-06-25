@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface SongRepository extends JpaRepository<Song, Long> {
-    Optional<Song> findFirstByIdOrderByIdDesc(Long songId);  // TODO : 충돌예상
+public interface SongRepository extends JpaRepository<Song, Long>, SongCustomRepository {
+    Optional<Song> findFirstByIdOrderByIdDesc(Long songId);
+    boolean existsByCompareTitleAndArtist(String compareTitle, String artist);
 }

@@ -36,6 +36,7 @@ public class SongCode extends BaseEntity {
     private MachineType machineType;
 
     @Comment("노래 곡 번호")
+    @Setter
     @Column(name = "SONG_NUM", nullable = false)
     private String songNum;
 

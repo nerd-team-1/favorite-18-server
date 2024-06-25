@@ -11,10 +11,12 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Comment;
 
 @Comment("노래 정보")
@@ -33,15 +35,18 @@ public class Song extends BaseEntity {
     private String artist;
 
     @Comment("앨범 이미지")
+    @Setter
     @Column(name = "ALBUM_PIC_URL")
     private String albumPictureUrl;
 
     @Comment("노래 가사")
-    @Column(name = "LYLICS")
+    @Setter
+    @Column(name = "LYRICS")
     @Lob
-    private String lylics;
+    private String lyrics;
 
     @Comment("점수 비교가 가능한 파일 경로")
+    @Setter
     @Column(name = "SCORE_COMPARE_URL")
     private String scoreCompareUrl;
 
@@ -64,14 +69,14 @@ public class Song extends BaseEntity {
         String title,
         String artist,
         String albumPictureUrl,
-        String lylics,
+        String lyrics,
         String scoreCompareUrl,
         String compareTitle
     ) {
         this.title = title;
         this.artist = artist;
         this.albumPictureUrl = albumPictureUrl;
-        this.lylics = lylics;
+        this.lyrics = lyrics;
         this.scoreCompareUrl = scoreCompareUrl;
         this.compareTitle = compareTitle;
     }
@@ -96,6 +101,13 @@ public class Song extends BaseEntity {
     /** 노래가 좋아요를 받은 총 갯수.  */
     public int getTotalLikeCnt() {
         return this.songLikes.size();
+    }
+
+    /** MachineType을 기준으로 등록된 노래방 코드 Entity 를 반환한다. */
+    public Optional<SongCode> getSongCodeByMachineType(MachineType machineType) {
+        return this.songCodes.stream()
+            .filter(songCode -> songCode.getMachineType().equals(machineType))
+            .findFirst();
     }
 
 }
