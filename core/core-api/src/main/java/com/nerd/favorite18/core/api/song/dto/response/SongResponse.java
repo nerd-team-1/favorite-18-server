@@ -6,9 +6,11 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.Setter;
 
 /* Null인 필드는 반환 X */
+@Getter
 @JsonInclude(Include.NON_NULL)
 public class SongResponse {
 

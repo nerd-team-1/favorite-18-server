@@ -8,6 +8,7 @@ import static com.querydsl.core.group.GroupBy.list;
 import com.nerd.favorite18.storage.db.core.song.dto.QSongCodeQueryDto;
 import com.nerd.favorite18.storage.db.core.song.dto.QSongQueryDto;
 import com.nerd.favorite18.storage.db.core.song.dto.SongQueryDto;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.util.List;
@@ -26,21 +27,22 @@ public class SongCustomRepositoryImpl implements SongCustomRepository{
         List<Long> ids = query.select(song.id)
             .from(song)
             .join(song.songCodes, songCode)
-            .join(song.songLikes, songLike)
             .where(
-                titleContains(keyword),
-                artistContains(keyword)
+                new BooleanBuilder()
+                    .and(titleContains(keyword))
+                    .or(artistContains(keyword))
             )
             .distinct()
             .fetch();
 
+
         List<SongQueryDto> result = query.select(song)
             .from(song)
             .join(song.songCodes, songCode)
-            .join(song.songLikes, songLike)
             .where(
-                titleContains(keyword),
-                artistContains(keyword)
+                new BooleanBuilder()
+                    .and(titleContains(keyword))
+                    .or(artistContains(keyword))
             )
             .orderBy(song.id.asc())
             .distinct()
@@ -67,8 +69,7 @@ public class SongCustomRepositoryImpl implements SongCustomRepository{
                         )
                     )
                 )
-            )
-            ;
+            );
 
         return PageableExecutionUtils.getPage(result, pageable, ids::size);
     }
