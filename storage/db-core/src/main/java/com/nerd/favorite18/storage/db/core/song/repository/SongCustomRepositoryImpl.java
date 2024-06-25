@@ -24,7 +24,7 @@ public class SongCustomRepositoryImpl implements SongCustomRepository{
 
     @Override
     public Page<SongQueryDto> searchPage(String keyword, Pageable pageable) {
-        List<Long> ids = query.select(song.id)
+        List<Long> totalIds = query.select(song.id)
             .from(song)
             .join(song.songCodes, songCode)
             .where(
@@ -35,8 +35,11 @@ public class SongCustomRepositoryImpl implements SongCustomRepository{
             .distinct()
             .fetch();
 
+        if (totalIds.isEmpty()) {
+            return Page.empty();
+        }
 
-        List<SongQueryDto> result = query.select(song)
+        List<Long> resultIds = query.select(song.id)
             .from(song)
             .join(song.songCodes, songCode)
             .where(
@@ -44,10 +47,18 @@ public class SongCustomRepositoryImpl implements SongCustomRepository{
                     .and(titleContains(keyword))
                     .or(artistContains(keyword))
             )
-            .orderBy(song.id.asc())
             .distinct()
+            .orderBy(song.id.asc())
             .offset(pageable.getOffset())
             .limit(pageable.getPageSize())
+            .fetch();
+
+        List<SongQueryDto> result = query.select(song)
+            .from(song)
+            .join(song.songCodes, songCode)
+            .where(song.id.in(resultIds))
+            .orderBy(song.id.asc())
+            .distinct()
             .transform(
                 groupBy(song.id).list(
                     new QSongQueryDto(
@@ -71,7 +82,7 @@ public class SongCustomRepositoryImpl implements SongCustomRepository{
                 )
             );
 
-        return PageableExecutionUtils.getPage(result, pageable, ids::size);
+        return PageableExecutionUtils.getPage(result, pageable, totalIds::size);
     }
 
     private BooleanExpression titleContains(String keyword) {

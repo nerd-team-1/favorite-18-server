@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Business
-@Transactional
 @RequiredArgsConstructor
 public class SongBusiness {
     private final SongSelectService songSelectService;
