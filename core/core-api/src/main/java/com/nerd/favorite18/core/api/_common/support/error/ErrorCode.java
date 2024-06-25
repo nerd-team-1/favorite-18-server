@@ -9,6 +9,7 @@ public enum ErrorCode {
     E3404,
     E400,
     E403,
+    E404,
     E500
 
 }

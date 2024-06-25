@@ -99,4 +99,8 @@ public class User extends BaseEntity {
     public boolean isUserStatusInactive() {
         return this.status != UserStatus.ACTIVE;
     }
+
+    public boolean isUserRoleAdmin() {
+        return UserRole.ADMIN.equals(this.role);
+    }
 }
