@@ -29,6 +29,6 @@ public class UserBusiness {
      * @param user 로그인 유저 정보
      */
     public void deleteUser(UserDto user) {
-        userService.deleteUser(user);
+        userService.deleteUser(user.getId());
     }
 }

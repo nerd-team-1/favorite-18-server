@@ -24,8 +24,8 @@ public class JwtBusiness {
      * @return Jwt 토큰
      */
     public JwtResponse issueToken(UserDto userDto) {
-        final Token accessToken = jwtService.issueAccessToken(userDto.getId());
-        final Token refreshToken = jwtService.issueRefreshToken(userDto.getId());
+        final Token accessToken = jwtService.issueAccessToken(userDto);
+        final Token refreshToken = jwtService.issueRefreshToken(userDto);
 
         return jwtConverter.toResponse(accessToken, refreshToken);
     }
@@ -40,8 +40,8 @@ public class JwtBusiness {
      * @return 새로운 액세스 토큰
      */
     public JwtRefreshResponse issueRefreshToken(String refreshToken) {
-        final Long userId = jwtService.validationToken(refreshToken);
-        final Token newAccessToken = jwtService.issueAccessToken(userId);
+        final UserDto dto = jwtService.validationToken(refreshToken);
+        final Token newAccessToken = jwtService.issueAccessToken(dto);
 
         return jwtConverter.toResponse(newAccessToken);
     }
@@ -54,9 +54,9 @@ public class JwtBusiness {
      * @param accessToken 액세스토큰
      * @return 유저 id
      */
-    public Long validationAccessToken(String accessToken) {
-        final Long userId = jwtService.validationToken(accessToken);
+    public UserDto validationAccessToken(String accessToken) {
+        final UserDto userDto = jwtService.validationToken(accessToken);
 
-        return userId;
+        return userDto;
     }
 }
