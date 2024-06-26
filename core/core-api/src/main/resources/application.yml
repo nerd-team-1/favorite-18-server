@@ -38,6 +38,12 @@ oauth2:
     authorization-uri: https://accounts.google.com/o/oauth2/auth
     token-uri: https://oauth2.googleapis.com/token
     user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+  admin:
+    sub-id: ${OAUTH2_ADMIN_SUB_ID}
+    email: ${OAUTH2_ADMIN_EMAIL}
+  user:
+    sub-id: ${OAUTH2_USER_SUB_ID}
+    email: ${OAUTH2_USER_EMAIL}
 
 token:
   secret:
