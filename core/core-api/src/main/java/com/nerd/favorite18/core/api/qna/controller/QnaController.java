@@ -3,7 +3,7 @@ package com.nerd.favorite18.core.api.qna.controller;
 import com.nerd.favorite18.core.api._common.annotation.UserSession;
 import com.nerd.favorite18.core.api._common.support.response.ApiResponse;
 import com.nerd.favorite18.core.api.qna.business.QnaBusiness;
-import com.nerd.favorite18.core.api.qna.dto.QnaAddRequest;
+import com.nerd.favorite18.core.api.qna.dto.request.QnaAddRequest;
 import com.nerd.favorite18.core.api.qna.dto.QnaDto;
 import com.nerd.favorite18.core.api.user.dto.UserDto;
 import com.nerd.favorite18.storage.db.core.qna.entity.Qna;

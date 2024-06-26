@@ -1,7 +1,7 @@
 package com.nerd.favorite18.core.api.qna.business;
 
 import com.nerd.favorite18.core.api._common.annotation.Business;
-import com.nerd.favorite18.core.api.qna.dto.QnaAddRequest;
+import com.nerd.favorite18.core.api.qna.dto.request.QnaAddRequest;
 import com.nerd.favorite18.core.api.qna.dto.QnaDto;
 import com.nerd.favorite18.core.api.qna.service.QnaService;
 import com.nerd.favorite18.core.api.user.dto.UserDto;

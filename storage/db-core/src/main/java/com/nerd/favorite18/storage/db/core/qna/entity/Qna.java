@@ -12,7 +12,6 @@ import org.hibernate.annotations.Comment;
 @Entity
 @Table(name = "tbl_qna")
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Qna extends BaseEntity {
     @Comment("문의자 ID")
@@ -34,7 +33,6 @@ public class Qna extends BaseEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private QnaProgressStatus progressStatus;
-
 
     @Comment("답변 상태 : NO_REPLY, REPLIED")
     @Column(nullable = false)
@@ -68,5 +66,13 @@ public class Qna extends BaseEntity {
         this.answerStatus = answerStatus;
         this.adminUser = adminUser;
         this.answerContent = answerContent;
+    }
+
+    public void updateAnswerStatus(AnswerStatus answerStatus) {
+        this.answerStatus = answerStatus;
+    }
+
+    public void updateAdminUser(User adminUser) {
+        this.adminUser = adminUser;
     }
 }

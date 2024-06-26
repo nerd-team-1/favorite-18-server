@@ -1,4 +1,4 @@
-package com.nerd.favorite18.core.api.qna.dto;
+package com.nerd.favorite18.core.api.qna.dto.request;
 
 import lombok.*;
 
