@@ -45,5 +45,5 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           timeout: 60s
           script: |
-            cd /root
-            sh /root/favorite-18-server-run.sh
+            cd /root/favorite-18/app/be
+            sh ./favorite-18-server-run.sh
