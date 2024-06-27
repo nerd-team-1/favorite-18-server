@@ -35,7 +35,7 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           timeout: 60s
           source: "core/core-api/build/libs/favorite18-be-app.jar"
-          target: '/root/favorite-18/app/be''
+          target: "/root/favorite-18/app/be"
 
       - name: Deploy
         uses: appleboy/ssh-action@master
