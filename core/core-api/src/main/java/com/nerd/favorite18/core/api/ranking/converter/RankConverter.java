@@ -13,24 +13,13 @@ import com.nerd.favorite18.storage.db.core.ranking.entity.Rank;
 import com.nerd.favorite18.storage.db.core.song.entity.Song;
 import com.nerd.favorite18.storage.db.core.user.entity.User;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Converter
 public class RankConverter {
     public RankDto toDto(Rank entity) {
-       /* public Rank toEntity(Song songEntity, RankAddRequest request) {
-
-            return Optional.ofNullable(request)
-                    .map(it -> Rank.builder()
-                            .qnaUser(userEntity)
-                            .title(request.getTitle())
-                            .content(request.getContent())
-                            .progressStatus(QnaProgressStatus.UNPROCESSED)
-                            .answerStatus(AnswerStatus.NO_REPLY)
-                            .build())
-                    .orElseThrow(() -> new CoreApiException(ErrorType.NULL_POINT));
-        }*/
-
         return RankDto.of(
                 entity.getId(),
                 entity.getRankSong(),
@@ -40,5 +29,10 @@ public class RankConverter {
                 entity.getCreatedAt(),
                 entity.getUpdatedAt()
         );
+    }
+    public List<RankDto> toDto(List<Rank> entities) {
+        return entities.stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
     }
 }

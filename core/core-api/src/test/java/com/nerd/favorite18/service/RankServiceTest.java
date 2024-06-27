@@ -1,6 +1,7 @@
 package com.nerd.favorite18.service;
 
 import com.nerd.favorite18.core.api.ranking.service.RankService;
+import com.nerd.favorite18.core.enums.song.MachineType;
 import com.nerd.favorite18.storage.db.core.ranking.entity.Rank;
 import com.nerd.favorite18.storage.db.core.ranking.repository.RankRepository;
 import com.nerd.favorite18.storage.db.core.song.entity.Song;
@@ -14,6 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Clock;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @ExtendWith(SpringExtension.class) // junit4의 RunWith
@@ -30,23 +32,11 @@ public class RankServiceTest {
     @Test
     public void 랭킹조회() throws Exception {
             //given
-            Rank rank = createRank();
-            LocalDateTime today = LocalDateTime.now(Clock.systemDefaultZone());
+            //Rank rank = createRank();
+            LocalDate today = LocalDate.now(Clock.systemDefaultZone());
             //when
-            rankService.getRankAll(today, "TJ");
+            rankService.getRankAll(today, MachineType.TJ);
             //then
 
-    }
-    @Test
-    private Rank createRank() {
-        Rank rank = Rank.builder()
-                .rankSong(Song.builder()
-                        .title("아마겟돈")
-                        .artist("에스파")
-                        .build())
-                .rankDate(LocalDateTime.now(Clock.systemDefaultZone()))
-                .searchCnt(100L)
-                .build();
-        return rank;
     }
 }

@@ -4,6 +4,7 @@ import com.nerd.favorite18.core.api._common.support.error.CoreApiException;
 import com.nerd.favorite18.core.api._common.support.error.ErrorType;
 import com.nerd.favorite18.core.api.ranking.converter.RankConverter;
 import com.nerd.favorite18.core.api.ranking.dto.RankDto;
+import com.nerd.favorite18.core.enums.song.MachineType;
 import com.nerd.favorite18.storage.db.core.ranking.entity.Rank;
 import com.nerd.favorite18.storage.db.core.ranking.repository.RankRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,9 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -25,20 +28,15 @@ public class RankService {
     private final RedisTemplate<String, Object> redisTemplate;
 
     @Transactional(readOnly = true)
-    public RankDto getRankAll(LocalDateTime rankDate, String machineType) {
-        Rank rankEntity = rankRepository.findByRankDateOrderBySearchCntDesc(rankDate)
-                .orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
+    public List<RankDto> getRankAll(LocalDate rankDate, MachineType machineType) {
+        List<Rank> rankEntities = rankRepository.findByRankDateAndMachineTyperOrderBySearchCntDesc(rankDate, machineType)
+                .orElseThrow(() -> new CoreApiException(ErrorType.NULL_POINT));
 
-        return rankConverter.toDto(rankEntity);
+        return rankConverter.toDto(rankEntities);
     }
 
     public void increaseSearchCnt(Long songId) {
         ValueOperations<String, Object> values = redisTemplate.opsForValue();
         redisTemplate.opsForZSet().incrementScore("searchCnt",songId, 1);
-    }
-
-    public Long getSearchCnt(Long songId) {
-        Long searchCnt = redisTemplate.opsForZSet().rank("searchCnt", songId);
-        return (searchCnt != null) ? searchCnt.longValue() : 0L;
     }
 }

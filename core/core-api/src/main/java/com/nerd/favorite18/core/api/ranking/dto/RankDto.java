@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 public class RankDto {
     private Long id;
     private Song rankSong;
-    private LocalDateTime rankDate;
+    private LocalDate rankDate;
     private String rank;
     private Long searchCnt;
     private LocalDateTime createdAt;
@@ -23,9 +24,9 @@ public class RankDto {
     public static RankDto of(
             Long id,
             Song rankSong,
-            LocalDateTime rankDate,
+            LocalDate rankDate,
             String rank,
-            Long searchCnt,
+            long searchCnt,
             LocalDateTime createdAt,
             LocalDateTime updatedAt
     ) {
