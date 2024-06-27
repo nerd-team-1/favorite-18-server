@@ -9,7 +9,6 @@ import com.nerd.favorite18.core.api.qna.dto.request.QnaAddRequest;
 import com.nerd.favorite18.core.api.qna.dto.request.QnaUpdateRequest;
 import com.nerd.favorite18.core.api.qna.dto.response.QnaResponse;
 import com.nerd.favorite18.core.api.user.dto.UserDto;
-import com.nerd.favorite18.core.enums.qna.AnswerStatus;
 import com.nerd.favorite18.core.enums.qna.QnaProgressStatus;
 import com.nerd.favorite18.core.enums.user.UserStatus;
 import com.nerd.favorite18.storage.db.core.qna.dto.QnaQueryDto;
@@ -20,14 +19,12 @@ import com.nerd.favorite18.storage.db.core.user.entity.User;
 import com.nerd.favorite18.storage.db.core.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 @Slf4j
@@ -124,38 +121,10 @@ public class QnaService {
                 .orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
 
         Qna qnaEntity = qnaRepository.findByIdOrderByIdDesc(qnaId).orElseThrow(() -> new CoreApiException(ErrorType.QNA_NOT_FOUND));
+        qnaEntity.applyUpdates(request.getProgressStatus(), request.getAnswerContent(), userEntity);
 
-        final Qna save = qnaRepository.save(update(userEntity, qnaEntity, request));
+        final Qna save = qnaRepository.save(qnaEntity);
 
         return qnaConverter.toDto(save);
-    }
-
-    // 답변 업데이트 메소드
-    private Qna update(User adminUser, Qna qnaEntity, QnaUpdateRequest request) {
-        Class<? extends QnaUpdateRequest> requestClass = request.getClass();
-        Field[] fields = requestClass.getDeclaredFields();
-
-        for (Field field : fields) {
-            field.setAccessible(true);
-
-            try {
-                Object value = field.get(request);
-
-                if (!ObjectUtils.isEmpty(value)) {
-                    Field qnaField = Qna.class.getDeclaredField(field.getName());
-                    qnaField.setAccessible(true);
-                    qnaField.set(qnaEntity, value);
-
-                    if (field.getName().equals("answerContent")) {
-                        qnaEntity.updateAdminUser(adminUser);
-                        qnaEntity.updateAnswerStatus(AnswerStatus.REPLIED);
-                    }
-                }
-            } catch (IllegalAccessException | NoSuchFieldException e) {
-                throw new CoreApiException(ErrorType.DEFAULT_ERROR, "Q&A 업데이트를 실패했습니다.");
-            }
-        }
-
-        return qnaEntity;
     }
 }

@@ -7,6 +7,7 @@ import com.nerd.favorite18.core.api.qna.dto.QnaDto;
 import com.nerd.favorite18.core.api.qna.dto.request.QnaUpdateRequest;
 import com.nerd.favorite18.core.api.qna.dto.response.QnaResponse;
 import com.nerd.favorite18.core.api.user.dto.UserDto;
+import com.nerd.favorite18.core.enums.qna.QnaProgressStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +28,7 @@ public class QnaAdminController {
     @GetMapping
     public ApiResponse<Page<QnaResponse>> getQnas(
             @UserSession UserDto userDto,
-            @RequestParam(required = false) String progressStatus,
+            @RequestParam(required = false) QnaProgressStatus progressStatus,
             Pageable pageable
     ) {
         Page<QnaResponse> response = qnaAdminBusiness.getQnas(progressStatus, pageable);
@@ -38,7 +39,7 @@ public class QnaAdminController {
     @GetMapping("/me")
     public ApiResponse<Page<QnaResponse>> getMyQnas(
             @UserSession UserDto userDto,
-            @RequestParam(required = false) String progressStatus,
+            @RequestParam(required = false) QnaProgressStatus progressStatus,
             Pageable pageable
     ) {
         Page<QnaResponse> response = qnaAdminBusiness.getMyQnas(userDto, progressStatus, pageable);

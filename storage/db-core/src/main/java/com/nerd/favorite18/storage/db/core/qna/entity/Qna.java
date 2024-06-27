@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.Comment;
+import org.springframework.util.ObjectUtils;
 
 @Entity
 @Table(name = "tbl_qna")
@@ -68,11 +69,23 @@ public class Qna extends BaseEntity {
         this.answerContent = answerContent;
     }
 
-    public void updateAnswerStatus(AnswerStatus answerStatus) {
-        this.answerStatus = answerStatus;
+    public void updateProgressStatus(QnaProgressStatus progressStatus) {
+        this.progressStatus = progressStatus;
     }
 
-    public void updateAdminUser(User adminUser) {
+    public void updateAnswerContent(String answerContent, User adminUser) {
+        this.answerContent = answerContent;
         this.adminUser = adminUser;
+        this.answerStatus = AnswerStatus.REPLIED;
+    }
+
+    public void applyUpdates(QnaProgressStatus status, String answerContent, User adminUser) {
+        if (!ObjectUtils.isEmpty(status)) {
+            updateProgressStatus(status);
+        }
+
+        if (!ObjectUtils.isEmpty(answerContent)) {
+            updateAnswerContent(answerContent, adminUser);
+        }
     }
 }

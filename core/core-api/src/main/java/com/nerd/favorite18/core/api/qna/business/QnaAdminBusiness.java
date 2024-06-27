@@ -8,7 +8,6 @@ import com.nerd.favorite18.core.api.qna.service.QnaService;
 import com.nerd.favorite18.core.api.user.dto.UserDto;
 import com.nerd.favorite18.core.enums.qna.QnaProgressStatus;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -26,9 +25,9 @@ public class QnaAdminBusiness {
      * @param pageable 페이지 객체
      * @return Q&A 리스트 with page
      */
-    public Page<QnaResponse> getQnas(String progressStatus, Pageable pageable) {
+    public Page<QnaResponse> getQnas(QnaProgressStatus progressStatus, Pageable pageable) {
 
-        return qnaService.getAllQna(null, validateProgressStatus(progressStatus), pageable);
+        return qnaService.getAllQna(null, progressStatus, pageable);
     }
 
     /**
@@ -41,9 +40,9 @@ public class QnaAdminBusiness {
      * @param pageable 페이지 객체
      * @return 내가 답변한 Q&A 리스트 with page
      */
-    public Page<QnaResponse> getMyQnas(UserDto userDto, String progressStatus, Pageable pageable) {
+    public Page<QnaResponse> getMyQnas(UserDto userDto, QnaProgressStatus progressStatus, Pageable pageable) {
 
-        return qnaService.getAllQna(userDto.getId(), validateProgressStatus(progressStatus), pageable);
+        return qnaService.getAllQna(userDto.getId(), progressStatus, pageable);
     }
 
     /**
@@ -57,13 +56,5 @@ public class QnaAdminBusiness {
      */
     public QnaDto updateQna(UserDto userDto, Long qnaId, QnaUpdateRequest request) {
         return qnaService.updateQnaFromAdmin(userDto.getId(), qnaId, request);
-    }
-
-    private QnaProgressStatus validateProgressStatus(String progressStatus) {
-        if (ObjectUtils.isEmpty(progressStatus)) {
-            return null;
-        }
-
-        return QnaProgressStatus.valueOf(progressStatus);
     }
 }
