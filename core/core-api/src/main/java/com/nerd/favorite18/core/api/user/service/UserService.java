@@ -6,10 +6,14 @@ import com.nerd.favorite18.core.api.user.converter.UserConverter;
 import com.nerd.favorite18.core.api.user.dto.UserDto;
 import com.nerd.favorite18.core.api.user.dto.request.UserRegisterRequest;
 import com.nerd.favorite18.core.api.user.dto.request.UserUpdateNicknameRequest;
+import com.nerd.favorite18.core.api.user.dto.request.UserUpdateUserRoleRequest;
 import com.nerd.favorite18.core.enums.user.UserStatus;
 import com.nerd.favorite18.storage.db.core.user.entity.User;
+import com.nerd.favorite18.storage.db.core.user.projection.UserListResponse;
 import com.nerd.favorite18.storage.db.core.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +43,16 @@ public class UserService {
         }
 
         return userConverter.toDto(userEntity);
+    }
+
+    /**
+     * 관리자용 유저 전체 조회
+     *
+     * @return 유저 리스트
+     */
+    @Transactional(readOnly = true)
+    public Page<UserListResponse> getAllUsers(Pageable pageable) {
+        return userRepository.findAllOrderedById(pageable);
     }
 
     /**
@@ -87,13 +101,29 @@ public class UserService {
     }
 
     /**
-     * ACTIVE 상태 사용자 조회하여 DELETE 로 변경 후 저장
+     * 관리자용 사용자 권한 변경
      *
-     * @param user 로그인 사용자 정보
+     * @param userId 변경할 사용자 id
+     * @param request 변경할 권한
      */
     @Transactional
-    public void deleteUser(UserDto user) {
-        User userEntity = userRepository.findFirstByIdAndStatusOrderByIdDesc(user.getId(), UserStatus.ACTIVE)
+    public void updateUserRole(Long userId, UserUpdateUserRoleRequest request) {
+        User userEntity = userRepository.findFirstByIdAndStatusOrderByIdDesc(userId, UserStatus.ACTIVE)
+                .orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
+
+        userEntity.updateUserRole(request.getRole());
+
+        userRepository.save(userEntity);
+    }
+
+    /**
+     * ACTIVE 상태 사용자 조회하여 DELETE 로 변경 후 저장
+     *
+     * @param userId 삭제할 사용자 id
+     */
+    @Transactional
+    public void deleteUser(Long userId) {
+        User userEntity = userRepository.findFirstByIdAndStatusOrderByIdDesc(userId, UserStatus.ACTIVE)
                 .orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
 
         userEntity.updateStatus(UserStatus.DELETE);

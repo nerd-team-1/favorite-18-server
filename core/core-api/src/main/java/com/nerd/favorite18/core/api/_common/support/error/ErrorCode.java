@@ -8,6 +8,8 @@ public enum ErrorCode {
     E2003,
     E3404,
     E400,
+    E403,
+    E404,
     E500
 
 }

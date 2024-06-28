@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Comment;
 
+@Comment("사용자 정보")
 @Entity
 @Table(name = "tbl_user")
 @Getter
@@ -87,11 +88,19 @@ public class User extends BaseEntity {
         this.nickname = nickname;
     }
 
+    public void updateUserRole(UserRole role) {
+        this.role = role;
+    }
+
     public void updateStatus(UserStatus status) {
         this.status = status;
     }
 
     public boolean isUserStatusInactive() {
         return this.status != UserStatus.ACTIVE;
+    }
+
+    public boolean isUserRoleAdmin() {
+        return UserRole.ADMIN.equals(this.role);
     }
 }
