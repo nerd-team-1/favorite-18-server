@@ -33,8 +33,9 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
+          port: 22
           timeout: 60s
-          source: "core/core-api/build/libs/favorite18-be-app.jar"
+          source: "./core/core-api/build/libs/favorite18-be-app.jar"
           target: "/root/favorite-18/app/be"
 
       - name: Deploy
@@ -43,6 +44,7 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_KEY }}
+          port: 22
           timeout: 60s
           script: |
             cd /root/favorite-18/app/be
