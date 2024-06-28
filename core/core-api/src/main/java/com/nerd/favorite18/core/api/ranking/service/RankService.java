@@ -31,7 +31,7 @@ public class RankService {
 
     @Transactional(readOnly = true)
     public List<RankListResponse> getRankAll(LocalDate rankDate, MachineType machineType) {
-        final List<RankListResponse> ranks = (List<RankListResponse>) rankRepository.findByRankDateAndMachineTyperOrderBySearchCntDesc(rankDate, machineType)
+        final List<RankListResponse> ranks = rankRepository.findByRankDateAndMachineTyperOrderBySearchCntDesc(rankDate, machineType)
                 .orElseThrow(() -> new CoreApiException(ErrorType.NULL_POINT));
 
         return ranks;
