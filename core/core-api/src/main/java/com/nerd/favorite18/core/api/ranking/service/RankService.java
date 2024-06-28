@@ -1,12 +1,7 @@
 package com.nerd.favorite18.core.api.ranking.service;
 
-import com.nerd.favorite18.core.api._common.support.error.CoreApiException;
-import com.nerd.favorite18.core.api._common.support.error.ErrorType;
 import com.nerd.favorite18.core.api.ranking.converter.RankConverter;
-import com.nerd.favorite18.core.api.ranking.dto.RankDto;
-import com.nerd.favorite18.core.api.ranking.dto.request.RankAddRequest;
 import com.nerd.favorite18.core.enums.song.MachineType;
-import com.nerd.favorite18.storage.db.core.ranking.entity.Rank;
 import com.nerd.favorite18.storage.db.core.ranking.projection.RankListResponse;
 import com.nerd.favorite18.storage.db.core.ranking.repository.RankRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -31,8 +25,7 @@ public class RankService {
 
     @Transactional(readOnly = true)
     public List<RankListResponse> getRankAll(LocalDate rankDate, MachineType machineType) {
-        final List<RankListResponse> ranks = rankRepository.findByRankDateAndMachineTyperOrderBySearchCntDesc(rankDate, machineType)
-                .orElseThrow(() -> new CoreApiException(ErrorType.NULL_POINT));
+        final List<RankListResponse> ranks = rankRepository.findByRankDateAndMachineTyperOrderBySearchCntDesc(rankDate, machineType);
 
         return ranks;
     }

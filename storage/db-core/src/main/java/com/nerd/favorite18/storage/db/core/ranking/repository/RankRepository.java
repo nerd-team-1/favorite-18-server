@@ -9,11 +9,10 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 
 public interface RankRepository extends JpaRepository<Rank, Long> {
 
     @Query("SELECT r FROM Rank r JOIN SongCode s ON r.rankSong = s.song WHERE r.rankDate = :rankDate AND s.machineType = :machineType ORDER BY r.searchCnt DESC")
-    Optional<List<RankListResponse>> findByRankDateAndMachineTyperOrderBySearchCntDesc(@Param("rankDate") LocalDate rankDate, @Param("machineType") MachineType machineType);
+    List<RankListResponse> findByRankDateAndMachineTyperOrderBySearchCntDesc(@Param("rankDate") LocalDate rankDate, @Param("machineType") MachineType machineType);
 }
