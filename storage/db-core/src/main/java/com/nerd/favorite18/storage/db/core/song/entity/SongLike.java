@@ -13,7 +13,7 @@ import org.hibernate.annotations.Comment;
 @Comment("사용자의 노래 좋아요")
 @Entity
 @Table(
-        name = "SONG_LIKE",
+        name = "tbl_song_like",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = {"USER_ID", "SONG_ID"})
         }

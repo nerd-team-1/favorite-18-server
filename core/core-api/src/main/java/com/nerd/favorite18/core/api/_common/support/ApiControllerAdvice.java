@@ -1,4 +1,4 @@
-package com.nerd.favorite18.core.api._common.controller;
+package com.nerd.favorite18.core.api._common.support;
 
 import com.nerd.favorite18.core.api._common.support.error.CoreApiException;
 import com.nerd.favorite18.core.api._common.support.error.ErrorType;
