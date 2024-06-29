@@ -10,7 +10,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 
-public interface QnaRepository extends JpaRepository<Qna, Long> {
+public interface QnaRepository extends JpaRepository<Qna, Long>, QnaCustomRepository {
     Page<QnaListResponse> findAllByQnaUserOrderByCreatedAtDesc(User qnaUser, Pageable pageable);
     Optional<Qna> findByIdAndQnaUserOrderByIdDesc(Long id, User qnaUser);
+    Optional<Qna> findByIdOrderByIdDesc(Long id);
 }

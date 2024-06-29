@@ -8,11 +8,11 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.Comment;
+import org.springframework.util.ObjectUtils;
 
 @Entity
 @Table(name = "tbl_qna")
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Qna extends BaseEntity {
     @Comment("문의자 ID")
@@ -34,7 +34,6 @@ public class Qna extends BaseEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private QnaProgressStatus progressStatus;
-
 
     @Comment("답변 상태 : NO_REPLY, REPLIED")
     @Column(nullable = false)
@@ -68,5 +67,25 @@ public class Qna extends BaseEntity {
         this.answerStatus = answerStatus;
         this.adminUser = adminUser;
         this.answerContent = answerContent;
+    }
+
+    public void updateProgressStatus(QnaProgressStatus progressStatus) {
+        this.progressStatus = progressStatus;
+    }
+
+    public void updateAnswerContent(String answerContent, User adminUser) {
+        this.answerContent = answerContent;
+        this.adminUser = adminUser;
+        this.answerStatus = AnswerStatus.REPLIED;
+    }
+
+    public void applyUpdates(QnaProgressStatus status, String answerContent, User adminUser) {
+        if (!ObjectUtils.isEmpty(status)) {
+            updateProgressStatus(status);
+        }
+
+        if (!ObjectUtils.isEmpty(answerContent)) {
+            updateAnswerContent(answerContent, adminUser);
+        }
     }
 }

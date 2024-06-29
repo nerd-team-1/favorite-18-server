@@ -1,0 +1,35 @@
+spring:
+  config.activate.on-profile: test
+
+oauth2:
+  google:
+    client-id: "client-id"
+    client-secret: "client-secret"
+    redirect-uri: "redirect-uri"
+    authorization-uri: https://accounts.google.com/o/oauth2/auth
+    token-uri: https://oauth2.googleapis.com/token
+    user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+  admin:
+    sub-id: "admin_0000"
+    email: "admin@test.com"
+  user:
+    sub-id: "user_0001"
+    email: "user@test.com"
+
+token:
+  secret:
+    key: "test token"
+  access-token:
+    plus-hour: 1
+  refresh-token:
+    plus-hour: 12
+
+storage:
+  datasource:
+    core:
+      driver-class-name: org.h2.Driver
+      jdbc-url: jdbc:h2:mem:core;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+      username: sa
+      pool-name: core-db-pool
+      data-source-properties:
+        rewriteBatchedStatements: true
