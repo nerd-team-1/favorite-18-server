@@ -33,21 +33,20 @@ public class Rank extends BaseEntity {
 
     @Comment("랭킹 순위")
     @Column(length = 3, nullable = false)
-    private String rank;
+    private String ranking;
 
     @Comment("검색 횟수")
-    @Column(nullable = false)
-    private Long searchCnt;
+    private long searchCnt;
 
     @Builder
     public Rank(Song rankSong,
                 LocalDate rankDate,
-                String rank,
-                Long searchCnt
+                String ranking,
+                long searchCnt
     ) {
         this.rankSong = rankSong;
         this.rankDate = rankDate;
-        this.rank = rank;
+        this.ranking = ranking;
         this.searchCnt = searchCnt;
     }
 }

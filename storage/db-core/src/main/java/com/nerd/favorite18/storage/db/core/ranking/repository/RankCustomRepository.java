@@ -2,12 +2,10 @@ package com.nerd.favorite18.storage.db.core.ranking.repository;
 
 import com.nerd.favorite18.core.enums.song.MachineType;
 import com.nerd.favorite18.storage.db.core.ranking.dto.RankQueryDto;
-import com.nerd.favorite18.storage.db.core.ranking.entity.Rank;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
 import java.util.List;
 
-public interface RankRepository extends JpaRepository<Rank, Long>, RankCustomRepository {
+public interface RankCustomRepository {
     List<RankQueryDto> findAllByRankDateAndMachineType(LocalDate rankDate, MachineType machineType);
 }
