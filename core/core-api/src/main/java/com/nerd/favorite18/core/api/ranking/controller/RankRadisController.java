@@ -27,4 +27,9 @@ public class RankRadisController {
         redisRankService.setSongCount(songId);
         return ApiResponse.success();
     }
+
+    @GetMapping("/song")
+    public Optional<Song> getSongById(Long songId){
+        return redisRankService.getSongById(songId);
+    }
 }

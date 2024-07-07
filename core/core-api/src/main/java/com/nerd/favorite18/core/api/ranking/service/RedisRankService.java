@@ -1,6 +1,10 @@
 package com.nerd.favorite18.core.api.ranking.service;
 
 import com.nerd.favorite18.core.api.ranking.dto.RankRedisDto;
+import com.nerd.favorite18.core.api.ranking.dto.response.RankResponse;
+import com.nerd.favorite18.storage.db.core.ranking.entity.Rank;
+import com.nerd.favorite18.storage.db.core.song.entity.Song;
+import com.nerd.favorite18.storage.db.core.song.repository.SongRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -9,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -45,7 +50,7 @@ public class RedisRankService {
     }
 
     /** 노래ID로 상세정보 조회 */
-    public List<Song> getSongById(List<Long> songIds) {
-        return songRepository.findAllById(songIds);
+    public Optional<Song> getSongById(Long songId) {
+        return songRepository.findById(songId);
     }
 }
