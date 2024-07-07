@@ -18,7 +18,7 @@ import java.util.List;
 @Converter
 @RequiredArgsConstructor
 public class RankConverter {
-    public RankResponse toRankListResponse(RankQueryDto rankQueryDto) {
+    public RankResponse toRankResponse(RankQueryDto rankQueryDto) {
         return RankResponse.builder()
                 .rankId(rankQueryDto.getId())
                 .title(rankQueryDto.getTitle())

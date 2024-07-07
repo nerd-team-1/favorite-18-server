@@ -31,12 +31,8 @@ public class RankService {
         final List<RankQueryDto> queryResult = rankRepository.findAllByRankDateAndMachineType(rankDate, machineType);
 
         return queryResult.stream()
-                .map(rankConverter::toRankListResponse)
+                .map(rankConverter::toRankResponse)
                 .toList();
     }
 
-    public void increaseSearchCnt(Long songId) {
-        ValueOperations<String, Object> values = redisTemplate.opsForValue();
-        redisTemplate.opsForZSet().incrementScore("searchCnt",songId, 1);
-    }
 }

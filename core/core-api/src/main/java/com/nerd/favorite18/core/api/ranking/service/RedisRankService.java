@@ -20,6 +20,7 @@ public class RedisRankService {
     private final RedisTemplate redisTemplate;
     private static final String REDIS_KEY_PREFIX = "rank:songs:";
     private static final String ZSET_KEY = "rank:songs:searchCnt";
+    private final SongRepository songRepository;
 
     /** 노래별 검색 횟수 저장*/
     public void setSongCount(Long songId) {
@@ -33,7 +34,7 @@ public class RedisRankService {
         redisTemplate.opsForZSet().add(ZSET_KEY, key, count);
     }
 
-    /** 1~100위 노래 조회*/
+    /** 1~100위 노래ID 조회 */
     public List<RankRedisDto> getTop100Songs(){
         ZSetOperations<String, Long> zSetOperations = redisTemplate.opsForZSet();
         Set<ZSetOperations.TypedTuple<Long>> rankSet =  zSetOperations.reverseRangeWithScores(ZSET_KEY, 0, 99);
@@ -41,5 +42,10 @@ public class RedisRankService {
         return rankSet.stream()
                 .map(tuple -> new RankRedisDto(tuple.getValue(), tuple.getScore().longValue()))
                 .collect(Collectors.toList());
+    }
+
+    /** 노래ID로 상세정보 조회 */
+    public List<Song> getSongById(List<Long> songIds) {
+        return songRepository.findAllById(songIds);
     }
 }
