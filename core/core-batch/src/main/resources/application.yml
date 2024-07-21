@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: core-batch
+
+  profiles:
+    active: local
+
+  config:
+    import:
+      - optional:file:.env[.properties]
+      - db-core.yml
+server:
+  port: 9090
+  #  data:
+#    redis:
+#      host: localhost
+#      port: 6379
+
+  batch:
+    job:
+      names: ${job.name:NONE}
+    jdbc:
+      initialize-schema: always
+
+#JPA
+  jpa:
+   hibernate:
+     ddl-auto: update
+   database-platform: org.hibernate.dialect.H2Dialect
+   show-sql: true
+   format-sql: true
+
+---
+spring.config.activate.on-profile: local
