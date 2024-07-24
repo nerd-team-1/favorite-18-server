@@ -117,6 +117,22 @@ public class UserService {
     }
 
     /**
+     * 사용자 리프레쉬 토큰 업데이트
+     *
+     * @param userId 변경할 사용자 id
+     * @param refreshToken 업데이트할 리프레쉬 토큰
+     */
+    @Transactional
+    public void updateUserRefreshToken(Long userId, String refreshToken) {
+        User userEntity = userRepository.findFirstByIdAndStatusOrderByIdDesc(userId, UserStatus.ACTIVE)
+                .orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
+
+        userEntity.updateRefreshToken(refreshToken);
+
+        userRepository.save(userEntity);
+    }
+
+    /**
      * ACTIVE 상태 사용자 조회하여 DELETE 로 변경 후 저장
      *
      * @param userId 삭제할 사용자 id

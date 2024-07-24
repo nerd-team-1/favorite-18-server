@@ -52,6 +52,7 @@ public class UserSessionResolver implements HandlerMethodArgumentResolver {
         }
 
         final UserDto userDto = userService.getUserActiveWithThrow(Long.parseLong(userId.toString()));
+        userDto.setRefreshToken(null); // 세션에는 리프레시 토큰이 필요없음
 
         // 사용자 정보 세팅
         return userDto;

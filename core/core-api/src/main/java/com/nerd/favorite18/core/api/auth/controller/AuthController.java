@@ -1,10 +1,10 @@
 package com.nerd.favorite18.core.api.auth.controller;
 
 import com.nerd.favorite18.core.api._common.annotation.UserSession;
+import com.nerd.favorite18.core.api._common.support.response.ApiResponse;
 import com.nerd.favorite18.core.api.auth.business.AuthBusiness;
 import com.nerd.favorite18.core.api.auth.dto.request.AuthRefreshRequest;
-import com.nerd.favorite18.core.api.jwt.dto.JwtRefreshResponse;
-import com.nerd.favorite18.core.api._common.support.response.ApiResponse;
+import com.nerd.favorite18.core.api.jwt.dto.JwtResponse;
 import com.nerd.favorite18.core.api.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,9 +21,16 @@ public class AuthController {
     private final AuthBusiness authBusiness;
 
     @PostMapping("/refresh-token")
-    public ApiResponse<JwtRefreshResponse> refreshToken(@UserSession UserDto user, @RequestBody AuthRefreshRequest request) {
-        final JwtRefreshResponse jwtRefreshResponse = authBusiness.refreshToken(request);
+    public ApiResponse<JwtResponse> refreshToken(@UserSession UserDto user, @RequestBody AuthRefreshRequest request) {
+        final JwtResponse jwtResponse = authBusiness.refreshToken(request);
 
-        return ApiResponse.success(jwtRefreshResponse);
+        return ApiResponse.success(jwtResponse);
+    }
+
+    @PostMapping("/logout")
+    public ApiResponse<Void> logout(@UserSession UserDto user) {
+        authBusiness.logout(user);
+
+        return ApiResponse.success();
     }
 }

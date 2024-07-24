@@ -14,4 +14,11 @@ import java.time.LocalDateTime;
 public class Token {
     private String token;
     private LocalDateTime expiredAt;
+
+    public static Token of(
+            String token,
+            LocalDateTime expiredAt
+    ) {
+        return new Token(token, expiredAt);
+    }
 }

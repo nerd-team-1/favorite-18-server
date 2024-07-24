@@ -6,4 +6,5 @@ public interface OAuth2UserInfo {
     String getSubId();
     String getEmail();
     String getName();
+    String getThumbnail();
 }

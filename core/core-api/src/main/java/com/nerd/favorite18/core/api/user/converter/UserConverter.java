@@ -37,6 +37,7 @@ public class UserConverter {
                 entity.getThumbnail(),
                 entity.getRole(),
                 entity.getStatus(),
+                entity.getRefreshToken(),
                 entity.getCreatedAt(),
                 entity.getUpdatedAt()
         );

@@ -61,6 +61,10 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
+    @Comment("리프레시 토큰")
+    @Setter @Column(length = 200)
+    private String refreshToken;
+
     @Builder
     public User(
             String subId,
@@ -95,12 +99,11 @@ public class User extends BaseEntity {
     public void updateStatus(UserStatus status) {
         this.status = status;
     }
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
 
     public boolean isUserStatusInactive() {
         return this.status != UserStatus.ACTIVE;
-    }
-
-    public boolean isUserRoleAdmin() {
-        return UserRole.ADMIN.equals(this.role);
     }
 }

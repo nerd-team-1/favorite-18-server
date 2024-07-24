@@ -2,12 +2,15 @@ package com.nerd.favorite18.core.api.jwt.service;
 
 import com.nerd.favorite18.core.api._common.support.error.CoreApiException;
 import com.nerd.favorite18.core.api._common.support.error.ErrorType;
+import com.nerd.favorite18.core.api._common.utils.SHA256HashUtils;
+import com.nerd.favorite18.core.api.auth.dto.request.AuthRefreshRequest;
 import com.nerd.favorite18.core.api.jwt.helper.TokenHelper;
 import com.nerd.favorite18.core.api.jwt.model.Token;
 import com.nerd.favorite18.core.api.user.dto.UserDto;
 import com.nerd.favorite18.core.enums.user.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.Map;
 import java.util.Objects;
@@ -41,6 +44,18 @@ public class JwtService {
                 Long.parseLong(userId.toString()),
                 UserRole.valueOf(userRole.toString())
         );
+    }
+
+    public Token validationRefreshToken(UserDto userDto, AuthRefreshRequest request) {
+        if (ObjectUtils.isEmpty(userDto.getRefreshToken())) {
+            throw new CoreApiException(ErrorType.AUTHORIZATION_TOKEN_NOT_FOUND);
+        }
+
+        if(!SHA256HashUtils.verifyToken(request.getRefreshToken(), userDto.getRefreshToken())) {
+            throw new CoreApiException(ErrorType.INVALID_TOKEN);
+        }
+
+        return Token.of(request.getRefreshToken(), request.getRefreshTokenExpiredAt());
     }
 
     private Map<String, Object> getClaimData(UserDto userDto) {
