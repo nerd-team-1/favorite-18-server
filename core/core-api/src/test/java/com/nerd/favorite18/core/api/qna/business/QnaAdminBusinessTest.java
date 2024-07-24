@@ -111,6 +111,7 @@ class QnaAdminBusinessTest {
                 "https://lh3.googleusercontent.com/",
                 UserRole.ADMIN,
                 UserStatus.ACTIVE,
+                "",
                 LocalDateTime.now(),
                 LocalDateTime.now()
         );
@@ -129,6 +130,7 @@ class QnaAdminBusinessTest {
                 "https://lh3.googleusercontent.com/",
                 UserRole.USER,
                 UserStatus.ACTIVE,
+                "",
                 LocalDateTime.now(),
                 LocalDateTime.now()
         );
