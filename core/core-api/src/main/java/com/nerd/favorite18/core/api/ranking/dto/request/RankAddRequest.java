@@ -21,6 +21,5 @@ public class RankAddRequest {
     private LocalDate rankDate;
     private String ranking;
     private Long searchCnt;
-    private String machineType;
-
+    private List<SongCode> songCodes;
 }
