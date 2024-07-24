@@ -26,10 +26,10 @@ public class RankRadisController {
         return rankRedisBusiness.getTop100Songs();
     }
 
-    /** 노래ID로 랭킹리스트 조회 */
+    /** 노래ID로 랭킹리스트 조회*/
     @GetMapping("/{songId}")
-    public Optional<Song> getSongById(@PathVariable Long songId) {
-        return redisRankService.getSongById(songId);
+    public ApiResponse<SongResponse> getSongById(@PathVariable("id") Long songId) {
+        return ApiResponse.success(songBusiness.getSong(songId));
     }
 
     /** 노래 상세정보 클릭 시 */
