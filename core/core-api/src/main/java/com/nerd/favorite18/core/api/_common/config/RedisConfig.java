@@ -46,4 +46,15 @@ public class RedisConfig {
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         return redisTemplate;
     }
+
+    /**
+     * 역직렬화 및 Date type을 사용하기 위해.
+     * @return
+     */
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        return objectMapper;
+    }
 }

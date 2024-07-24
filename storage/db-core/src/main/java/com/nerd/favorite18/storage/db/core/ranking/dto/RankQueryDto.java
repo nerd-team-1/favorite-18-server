@@ -19,7 +19,7 @@ public class RankQueryDto {
     private long searchCnt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private String songCode;
+    private List<SongCodeQueryDto> songCode;
 
     @QueryProjection
     public RankQueryDto(
@@ -32,7 +32,7 @@ public class RankQueryDto {
         long searchCnt,
         LocalDateTime createdAt,
         LocalDateTime updatedAt,
-        String songCode
+        List<SongCodeQueryDto> songCode
     ) {
         this.id = id;
         this.title = title;

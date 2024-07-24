@@ -2,6 +2,7 @@ package com.nerd.favorite18.core.api.ranking.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nerd.favorite18.core.api.song.dto.response.SongCodeResponse;
+import com.nerd.favorite18.storage.db.core.song.dto.SongCodeQueryDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,11 +21,10 @@ public class RankResponse {
     private String albumUrl;
     private LocalDate rankDate;
     private String ranking;
-    @Setter
     private long searchCnt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private String songCode;
+    private List<SongCodeQueryDto> songCode;
 
     @Builder
     private RankResponse(
@@ -37,7 +37,7 @@ public class RankResponse {
             long searchCnt,
             LocalDateTime createdAt,
             LocalDateTime updatedAt,
-            String songCode
+            List<SongCodeQueryDto> songCode
     ) {
         this.rankId = rankId;
         this.title = title;

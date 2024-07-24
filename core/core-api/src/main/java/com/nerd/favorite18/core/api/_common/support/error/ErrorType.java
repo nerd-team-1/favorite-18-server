@@ -8,6 +8,8 @@ public enum ErrorType {
 
     QNA_NOT_FOUND(HttpStatus.BAD_REQUEST, ErrorCode.E3404, "Qna is not fonded.", LogLevel.ERROR),
 
+    RANK_REDIS_NOT_FOUND(HttpStatus.BAD_REQUEST, ErrorCode.E5404, "Rank Redis is not fonded.", LogLevel.ERROR),
+
     SONG_DUPLICATE(HttpStatus.BAD_REQUEST, ErrorCode.E400, "Song is duplicated", LogLevel.WARN),
 
     INVALID_TOKEN(HttpStatus.BAD_REQUEST, ErrorCode.E2000, "Token is invalided.", LogLevel.ERROR),
