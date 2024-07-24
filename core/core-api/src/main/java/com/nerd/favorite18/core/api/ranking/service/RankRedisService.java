@@ -59,22 +59,15 @@ public class RankRedisService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<Song> getSongById(Long songId) {
-        return songRepository.findById(songId);
-    }
-
     public void clickSong(Long songId, RankAddRequest songDetails) {
         String key = REDIS_KEY_PREFIX + songId;
         String songJson = redisTemplate.opsForValue().get(key);
         final Song songEntity = songRepository.findById(songId)
                 .orElseThrow(() -> new CoreApiException(ErrorType.NOT_FOUND));
-        System.out.println(songEntity);
-
 
         songDetails.setAlbumUrl(songEntity.getAlbumPictureUrl());
         songDetails.setTitle(songEntity.getTitle());
         songDetails.setArtist(songEntity.getArtist());
-        songDetails.setSongCodes(songEntity.getSongCodes());
 
         if (songJson == null) {
             saveNewSongToRedis(songDetails);

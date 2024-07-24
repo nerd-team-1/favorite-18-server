@@ -30,8 +30,7 @@ public class RankRedisConverter {
                 request.getArtist(),
                 request.getRankDate(),
                 request.getRanking(),
-                request.getSearchCnt(),
-                request.getSongCodes()
+                request.getSearchCnt()
         );
     }
 

@@ -19,7 +19,6 @@ public class RankRedisDto {
     private LocalDate rankDate;
     private String ranking;
     private Long searchCnt;
-    private List<SongCode> songCodes;
 
     public static RankRedisDto of(
             Long songId,
@@ -28,8 +27,7 @@ public class RankRedisDto {
             String artist,
             LocalDate rankDate,
             String ranking,
-            Long searchCnt,
-            List<SongCode> songCodes
+            Long searchCnt
     ) {
         return new RankRedisDto(
                 songId,
@@ -38,8 +36,7 @@ public class RankRedisDto {
                 artist,
                 rankDate,
                 ranking,
-                searchCnt,
-                songCodes
+                searchCnt
         );
     }
 }
