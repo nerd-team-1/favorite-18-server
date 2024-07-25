@@ -6,6 +6,7 @@ import com.nerd.favorite18.core.enums.user.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -23,6 +24,7 @@ public class UserDto {
     private String thumbnail;
     private UserRole role;
     private UserStatus status;
+    @Setter private String refreshToken;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -46,6 +48,7 @@ public class UserDto {
             String thumbnail,
             UserRole role,
             UserStatus status,
+            String refreshToken,
             LocalDateTime createdAt,
             LocalDateTime updatedAt
     ) {
@@ -60,6 +63,7 @@ public class UserDto {
                 thumbnail,
                 role,
                 status,
+                refreshToken,
                 createdAt,
                 updatedAt
         );

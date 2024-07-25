@@ -1,18 +1,20 @@
 package com.nerd.favorite18.core.api.jwt.business;
 
 import com.nerd.favorite18.core.api._common.annotation.Business;
+import com.nerd.favorite18.core.api.auth.dto.request.AuthRefreshRequest;
 import com.nerd.favorite18.core.api.jwt.converter.JwtConverter;
-import com.nerd.favorite18.core.api.jwt.dto.JwtRefreshResponse;
 import com.nerd.favorite18.core.api.jwt.dto.JwtResponse;
 import com.nerd.favorite18.core.api.jwt.model.Token;
 import com.nerd.favorite18.core.api.jwt.service.JwtService;
 import com.nerd.favorite18.core.api.user.dto.UserDto;
+import com.nerd.favorite18.core.api.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Business
 public class JwtBusiness {
     private final JwtService jwtService;
+    private final UserService userService;
     private final JwtConverter jwtConverter;
 
     /**
@@ -36,14 +38,16 @@ public class JwtBusiness {
      * 1. 리프레쉬 토큰 인증 진행<br/>
      * 2. 인증이 완료되면 새로운 액세스토큰 발행<br/>
      *
-     * @param refreshToken 리프레쉬 토큰
+     * @param request 리프레쉬 토큰
      * @return 새로운 액세스 토큰
      */
-    public JwtRefreshResponse issueRefreshToken(String refreshToken) {
-        final UserDto dto = jwtService.validationToken(refreshToken);
+    public JwtResponse issueRefreshToken(AuthRefreshRequest request) {
+        final UserDto dto = jwtService.validationToken(request.getRefreshToken());
+        final UserDto findUser = userService.getUserActiveWithThrow(dto.getId());
+        final Token refreshToken = jwtService.validationRefreshToken(findUser, request);
         final Token newAccessToken = jwtService.issueAccessToken(dto);
 
-        return jwtConverter.toResponse(newAccessToken);
+        return jwtConverter.toResponse(newAccessToken, refreshToken);
     }
 
     /**
