@@ -21,7 +21,7 @@ public class AuthController {
     private final AuthBusiness authBusiness;
 
     @PostMapping("/refresh-token")
-    public ApiResponse<JwtResponse> refreshToken(@UserSession UserDto user, @RequestBody AuthRefreshRequest request) {
+    public ApiResponse<JwtResponse> refreshToken(@RequestBody AuthRefreshRequest request) {
         final JwtResponse jwtResponse = authBusiness.refreshToken(request);
 
         return ApiResponse.success(jwtResponse);
