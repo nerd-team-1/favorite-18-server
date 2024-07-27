@@ -17,6 +17,8 @@ public class UserConverter {
                         .subId(request.getSubId())
                         .email(request.getEmail())
                         .name(request.getName())
+                        .birth(request.getBirth())
+                        .gender(request.getGender())
                         .thumbnail(request.getThumbnail())
                         .role(UserRole.USER)
                         .status(UserStatus.ACTIVE)
@@ -38,6 +40,25 @@ public class UserConverter {
                 entity.getRole(),
                 entity.getStatus(),
                 entity.getRefreshToken(),
+                entity.getCreatedAt(),
+                entity.getUpdatedAt()
+        );
+    }
+
+    public UserDto toDtoWithoutToken(User entity) {
+
+        return UserDto.of(
+                entity.getId(),
+                entity.getSubId(),
+                entity.getEmail(),
+                entity.getName(),
+                entity.getNickname(),
+                entity.getBirth(),
+                entity.getGender(),
+                entity.getThumbnail(),
+                entity.getRole(),
+                entity.getStatus(),
+                null,
                 entity.getCreatedAt(),
                 entity.getUpdatedAt()
         );

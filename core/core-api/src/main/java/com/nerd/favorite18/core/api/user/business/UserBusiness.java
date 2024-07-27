@@ -17,8 +17,8 @@ public class UserBusiness {
      * @param user 로그인 유저 정보
      * @param request 업데이트할 이름
      */
-    public void updateNickname(UserDto user, UserUpdateNicknameRequest request) {
-        userService.updateNickname(user, request);
+    public UserDto updateNickname(UserDto user, UserUpdateNicknameRequest request) {
+        return userService.updateNickname(user, request);
     }
 
     /**
