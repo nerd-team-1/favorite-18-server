@@ -4,6 +4,7 @@ import com.nerd.favorite18.core.api._common.annotation.Converter;
 import com.nerd.favorite18.core.api._common.support.error.CoreApiException;
 import com.nerd.favorite18.core.api._common.support.error.ErrorType;
 import com.nerd.favorite18.core.api._common.utils.FavoriteStringUtils;
+import com.nerd.favorite18.core.api.ranking.dto.SongRankDto;
 import com.nerd.favorite18.core.api.song.dto.request.SongCodeRequest;
 import com.nerd.favorite18.core.api.song.dto.request.SongCreateRequest;
 import com.nerd.favorite18.core.api.song.dto.response.SongCodeResponse;
@@ -64,6 +65,20 @@ public class SongConverter {
             .createdAt(song.getCreatedAt())
             .updatedAt(song.getUpdatedAt())
             .build();
+    }
+
+    public SongRankDto toSongRankDtoByEntity(Song song) {
+
+        return SongRankDto.builder()
+                .songId(song.getId())
+                .title(song.getTitle())
+                .artist(song.getArtist())
+                .albumUrl(song.getAlbumPictureUrl())
+                .machineCodes(toSongCodeResponseListByEntity(song.getSongCodes()))
+                .totalFavoriteCount(song.getTotalLikeCnt())
+                .createdAt(song.getCreatedAt())
+                .updatedAt(song.getUpdatedAt())
+                .build();
     }
 
     public SongResponse toSongResponseWithFavoriteCountByEntity(Song song) {

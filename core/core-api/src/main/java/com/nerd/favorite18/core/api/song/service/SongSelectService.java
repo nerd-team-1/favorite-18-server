@@ -2,6 +2,7 @@ package com.nerd.favorite18.core.api.song.service;
 
 import com.nerd.favorite18.core.api._common.support.error.CoreApiException;
 import com.nerd.favorite18.core.api._common.support.error.ErrorType;
+import com.nerd.favorite18.core.api.ranking.dto.SongRankDto;
 import com.nerd.favorite18.core.api.song.converter.SongConverter;
 import com.nerd.favorite18.core.api.song.converter.SongQueryConverter;
 import com.nerd.favorite18.core.api.song.dto.response.SongResponse;
@@ -31,6 +32,13 @@ public class SongSelectService {
             .orElseThrow(() -> new CoreApiException(ErrorType.NOT_FOUND));
 
         return songConverter.toSongResponseWithFavoriteCountByEntity(findEntity);
+    }
+
+    public SongRankDto getSongForRank(Long songId) {
+        final Song findEntity = songRepository.findById(songId)
+                .orElseThrow(() -> new CoreApiException(ErrorType.NOT_FOUND));
+
+        return songConverter.toSongRankDtoByEntity(findEntity);
     }
 
     public Page<SongResponse> getSongListPage(String keyword, Pageable pageable) {
