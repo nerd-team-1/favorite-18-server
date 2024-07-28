@@ -19,4 +19,9 @@ public class RankRedisBusinessV2 {
     public List<RankScoreResponse> getTop100Songs() {
         return rankRedisServiceV2.zGetTopScores(100);
     }
+
+    public void deleteKeys() {
+        rankRedisServiceV2.deleteSong();
+        rankRedisServiceV2.deleteSongSearchCount();
+    }
 }

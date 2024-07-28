@@ -6,6 +6,7 @@ import com.nerd.favorite18.core.api.ranking.business.RankRedisBusinessV2;
 import com.nerd.favorite18.core.api.ranking.dto.response.RankScoreResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +27,7 @@ public class RankRedisController {
     /**
      * 1~100위 노래 ID 조회
      */
-    @GetMapping()
+    @GetMapping
     public List<RankScoreResponse> getTop100Songs() {
 
         return rankRedisBusinessV2.getTop100Songs();
@@ -36,6 +37,13 @@ public class RankRedisController {
     @PostMapping("/{songId}")
     public ApiResponse<Void> clickSong(@PathVariable Long songId){
         rankRedisBusinessV2.clickSong(songId);
+
+        return ApiResponse.success();
+    }
+
+    @DeleteMapping
+    public ApiResponse<Void> deleteKeys() {
+        rankRedisBusinessV2.deleteKeys();
 
         return ApiResponse.success();
     }

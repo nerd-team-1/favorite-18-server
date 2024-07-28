@@ -8,7 +8,6 @@ import com.nerd.favorite18.core.api.ranking.dto.SongRankDto;
 import com.nerd.favorite18.core.api.ranking.dto.response.RankScoreResponse;
 import com.nerd.favorite18.core.api.song.service.SongSelectService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
@@ -18,7 +17,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Slf4j
 @RequiredArgsConstructor
 @Service
 public class RankRedisServiceV2 {
@@ -40,7 +38,6 @@ public class RankRedisServiceV2 {
 
     public SongRankDto findSongById(String songId) {
         String jsonValue = (String) redisTemplate.opsForHash().get(SONG_KEY, songId);
-        log.info(jsonValue);
 
         if (!ObjectUtils.isEmpty(jsonValue)) {
             try {
@@ -57,7 +54,6 @@ public class RankRedisServiceV2 {
         Double currentScore = redisTemplate.opsForZSet().score(SONG_SEARCH_COUNT_KEY, songId);
 
         if (!ObjectUtils.isEmpty(currentScore)) {
-
             redisTemplate.opsForZSet().add(SONG_SEARCH_COUNT_KEY, songId, currentScore + 1);
         } else {
             final SongRankDto songRankDto = songSelectService.getSongForRank(Long.valueOf(songId));
@@ -71,7 +67,7 @@ public class RankRedisServiceV2 {
         final Set<TypedTuple<String>> idRank = redisTemplate.opsForZSet().reverseRangeWithScores(SONG_SEARCH_COUNT_KEY, 0, count - 1);
 
         if (ObjectUtils.isEmpty(idRank)) {
-            return List.of();
+            throw new CoreApiException(ErrorType.RANK_REDIS_NOT_FOUND);
         }
 
         return idRank.stream().map(tuple -> {
@@ -84,5 +80,13 @@ public class RankRedisServiceV2 {
                     .searchCount(score)
                     .build();
         }).collect(Collectors.toList());
+    }
+
+    public void deleteSong() {
+        redisTemplate.delete(SONG_KEY);
+    }
+
+    public void deleteSongSearchCount() {
+        redisTemplate.delete(SONG_SEARCH_COUNT_KEY);
     }
 }
