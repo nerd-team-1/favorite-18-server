@@ -41,6 +41,7 @@ public class RankRedisController {
         return ApiResponse.success();
     }
 
+    // 랭킹 키 삭제 API
     @DeleteMapping
     public ApiResponse<Void> deleteKeys() {
         rankRedisBusinessV2.deleteKeys();

@@ -36,20 +36,6 @@ public class RankRedisServiceV2 {
         }
     }
 
-    public SongRankDto findSongById(String songId) {
-        String jsonValue = (String) redisTemplate.opsForHash().get(SONG_KEY, songId);
-
-        if (!ObjectUtils.isEmpty(jsonValue)) {
-            try {
-                return objectMapper.readValue(jsonValue, SongRankDto.class);
-            } catch (JsonProcessingException e) {
-                throw new CoreApiException(ErrorType.DEFAULT_ERROR, "Json processing failed in findSongById");
-            }
-        }
-
-        return null;
-    }
-
     public void zAddScore(String songId) {
         Double currentScore = redisTemplate.opsForZSet().score(SONG_SEARCH_COUNT_KEY, songId);
 
@@ -61,6 +47,20 @@ public class RankRedisServiceV2 {
 
             redisTemplate.opsForZSet().add(SONG_SEARCH_COUNT_KEY, songId, 1);
         }
+    }
+
+    private SongRankDto findSongById(String songId) {
+        String jsonValue = (String) redisTemplate.opsForHash().get(SONG_KEY, songId);
+
+        if (!ObjectUtils.isEmpty(jsonValue)) {
+            try {
+                return objectMapper.readValue(jsonValue, SongRankDto.class);
+            } catch (JsonProcessingException e) {
+                throw new CoreApiException(ErrorType.DEFAULT_ERROR, "Json processing failed in findSongById");
+            }
+        }
+
+        return null;
     }
 
     public List<RankScoreResponse> zGetTopScores(int count) {
