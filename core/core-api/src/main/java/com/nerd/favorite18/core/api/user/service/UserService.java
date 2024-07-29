@@ -89,15 +89,16 @@ public class UserService {
      *
      * @param user 로그인 사용자 정보
      * @param request 변경할 닉네임
+     * @return 사용자 정보
      */
     @Transactional
-    public void updateNickname(UserDto user, UserUpdateNicknameRequest request) {
+    public UserDto updateNickname(UserDto user, UserUpdateNicknameRequest request) {
         User userEntity = userRepository.findFirstByIdAndStatusOrderByIdDesc(user.getId(), UserStatus.ACTIVE)
                 .orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
 
         userEntity.updateNickname(request.getNickname());
 
-        userRepository.save(userEntity);
+        return userConverter.toDtoWithoutToken(userRepository.save(userEntity));
     }
 
     /**

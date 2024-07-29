@@ -23,10 +23,10 @@ public class UserController {
 
     // 사용자 닉네임 변경
     @PutMapping("/nickname")
-    public ApiResponse<Void> updateNickname(@UserSession UserDto user, @RequestBody UserUpdateNicknameRequest request) {
-        userBusiness.updateNickname(user, request);
+    public ApiResponse<UserDto> updateNickname(@UserSession UserDto user, @RequestBody UserUpdateNicknameRequest request) {
+        final UserDto userDto = userBusiness.updateNickname(user, request);
 
-        return ApiResponse.success();
+        return ApiResponse.success(userDto);
     }
 
     // 회원 탈퇴

@@ -23,11 +23,11 @@ import org.hibernate.annotations.Comment;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class User extends BaseEntity {
     @Comment("사용자 ID : provider_sub")
-    @Column(length = 100, nullable = false)
+    @Column(unique = true, length = 100, nullable = false)
     private String subId;
 
     @Comment("사용자 이메일")
-    @Column(length = 50, nullable = false)
+    @Column(unique = true, length = 50, nullable = false)
     private String email;
 
     @Comment("사용자 이름")
