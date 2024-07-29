@@ -11,6 +11,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -38,18 +39,20 @@ public class RankRedisServiceV2 {
         rankRedisRepository.zAddScore(String.valueOf(songId), score);
     }
 
-    public SongRankDto findSongById(String songId) {
-        String jsonValue = rankRedisRepository.zGetValue(songId);
+    public Optional<SongRankDto> findSongById(String songId) {
+        final String jsonValue = rankRedisRepository.zGetValue(songId);
 
-        if (!ObjectUtils.isEmpty(jsonValue)) {
-            try {
-                return objectMapper.readValue(jsonValue, SongRankDto.class);
-            } catch (JsonProcessingException e) {
-                throw new CoreApiException(ErrorType.DEFAULT_ERROR, "Json processing failed in findSongById");
-            }
+        if (ObjectUtils.isEmpty(jsonValue)) {
+            return Optional.empty();
         }
 
-        return null;
+        try {
+            SongRankDto songRankDto = objectMapper.readValue(jsonValue, SongRankDto.class);
+
+            return Optional.of(songRankDto);
+        } catch (JsonProcessingException e) {
+            throw new CoreApiException(ErrorType.DEFAULT_ERROR, "Json processing failed in findSongById");
+        }
     }
 
     public Set<TypedTuple<String>> getTopScores(int count) {

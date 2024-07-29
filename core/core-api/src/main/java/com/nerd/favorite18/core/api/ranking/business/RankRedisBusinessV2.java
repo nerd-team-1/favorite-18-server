@@ -12,6 +12,8 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.data.redis.core.ZSetOperations;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -55,16 +57,20 @@ public class RankRedisBusinessV2 {
             throw new CoreApiException(ErrorType.RANK_REDIS_NOT_FOUND);
         }
 
-        return idRank.stream().map(tuple -> {
-            SongRankDto songRankDto = rankRedisServiceV2.findSongById(tuple.getValue());
-            Double originScore = tuple.getScore();
-            Long score = !ObjectUtils.isEmpty(originScore) ? Math.round(originScore) : 0;
+        return idRank.stream()
+                .map(tuple -> {
+                    Optional<SongRankDto> songRankDtoOpt = rankRedisServiceV2.findSongById(tuple.getValue());
+                    Double originScore = tuple.getScore();
+                    Long score = !ObjectUtils.isEmpty(originScore) ? Math.round(originScore) : 0;
 
-            return RankScoreResponse.builder()
-                    .songRankDto(songRankDto)
-                    .searchCount(score)
-                    .build();
-        }).collect(Collectors.toList());
+                    return songRankDtoOpt.map(songRankDto -> RankScoreResponse.builder()
+                                    .songRankDto(songRankDto)
+                                    .searchCount(score)
+                                    .build())
+                            .orElse(null);
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 
     /**
