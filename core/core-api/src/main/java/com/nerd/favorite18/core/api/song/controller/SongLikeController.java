@@ -5,6 +5,7 @@ import com.nerd.favorite18.core.api._common.support.response.ApiResponse;
 import com.nerd.favorite18.core.api.song.business.SongLikeBusiness;
 import com.nerd.favorite18.core.api.song.dto.SongLikeDto;
 import com.nerd.favorite18.core.api.user.dto.UserDto;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +23,16 @@ public class SongLikeController {
 
         return ApiResponse.success(response);
     }
+
+    @GetMapping("/confirm")
+    public ApiResponse<List<Long>> confirmLikeList (
+        @UserSession UserDto userDto,
+        @RequestParam("songIds") List<Long> songIds
+    ) {
+        final List<Long> response = songLikeBusiness.confirmLikeList(userDto, songIds);
+        return ApiResponse.success(response);
+    }
+
 
     @PostMapping("/{id}")
     public ApiResponse<Void> like(@UserSession UserDto userDto, @PathVariable Long id) {

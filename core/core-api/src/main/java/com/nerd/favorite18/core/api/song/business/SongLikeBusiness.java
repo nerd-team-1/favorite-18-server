@@ -4,6 +4,7 @@ import com.nerd.favorite18.core.api._common.annotation.Business;
 import com.nerd.favorite18.core.api.song.dto.SongLikeDto;
 import com.nerd.favorite18.core.api.song.service.SongLikeService;
 import com.nerd.favorite18.core.api.user.dto.UserDto;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,5 +24,9 @@ public class SongLikeBusiness {
 
     public void unLike(UserDto userDto, Long songId) {
         songLikeService.deleteSongLike(userDto, songId);
+    }
+
+    public List<Long> confirmLikeList(UserDto userDto, List<Long> songIds) {
+        return songLikeService.confirmLikeList(userDto, songIds);
     }
 }
