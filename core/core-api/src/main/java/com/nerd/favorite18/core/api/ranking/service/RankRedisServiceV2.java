@@ -5,52 +5,41 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nerd.favorite18.core.api._common.support.error.CoreApiException;
 import com.nerd.favorite18.core.api._common.support.error.ErrorType;
 import com.nerd.favorite18.core.api.ranking.dto.SongRankDto;
-import com.nerd.favorite18.core.api.ranking.dto.response.RankScoreResponse;
-import com.nerd.favorite18.core.api.song.service.SongSelectService;
+import com.nerd.favorite18.core.api.ranking.repository.RankRedisRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations.TypedTuple;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class RankRedisServiceV2 {
-    private final SongSelectService songSelectService;
-    private final RedisTemplate<String, String> redisTemplate;
+    private final RankRedisRepository rankRedisRepository;
+
     private final ObjectMapper objectMapper;
 
-    private static final String SONG_KEY = "song";
-    private static final String SONG_SEARCH_COUNT_KEY = "song_search_count";
-
-    private void zAddSong(SongRankDto songRankDto) {
+    public void addSong(SongRankDto songRankDto) {
         try {
             String jsonValue = objectMapper.writeValueAsString(songRankDto);
-            redisTemplate.opsForHash().put(SONG_KEY, songRankDto.getSongId().toString(), jsonValue);
+
+            rankRedisRepository.zAddSong(songRankDto.getSongId().toString(), jsonValue);
         } catch (JsonProcessingException e) {
             throw new CoreApiException(ErrorType.DEFAULT_ERROR, "Json processing failed in zAddSong");
         }
     }
 
-    public void zAddScore(String songId) {
-        Double currentScore = redisTemplate.opsForZSet().score(SONG_SEARCH_COUNT_KEY, songId);
-
-        if (!ObjectUtils.isEmpty(currentScore)) {
-            redisTemplate.opsForZSet().add(SONG_SEARCH_COUNT_KEY, songId, currentScore + 1);
-        } else {
-            final SongRankDto songRankDto = songSelectService.getSongForRank(Long.valueOf(songId));
-            zAddSong(songRankDto);
-
-            redisTemplate.opsForZSet().add(SONG_SEARCH_COUNT_KEY, songId, 1);
-        }
+    public Double getScore(Long songId) {
+        return rankRedisRepository.zGetScore(String.valueOf(songId));
     }
 
-    private SongRankDto findSongById(String songId) {
-        String jsonValue = (String) redisTemplate.opsForHash().get(SONG_KEY, songId);
+    public void zAddScore(Long songId, Double score) {
+        rankRedisRepository.zAddScore(String.valueOf(songId), score);
+    }
+
+    public SongRankDto findSongById(String songId) {
+        String jsonValue = rankRedisRepository.zGetValue(songId);
 
         if (!ObjectUtils.isEmpty(jsonValue)) {
             try {
@@ -63,30 +52,15 @@ public class RankRedisServiceV2 {
         return null;
     }
 
-    public List<RankScoreResponse> zGetTopScores(int count) {
-        final Set<TypedTuple<String>> idRank = redisTemplate.opsForZSet().reverseRangeWithScores(SONG_SEARCH_COUNT_KEY, 0, count - 1);
-
-        if (ObjectUtils.isEmpty(idRank)) {
-            throw new CoreApiException(ErrorType.RANK_REDIS_NOT_FOUND);
-        }
-
-        return idRank.stream().map(tuple -> {
-            SongRankDto songRankDto = findSongById(tuple.getValue());
-            Double originScore = tuple.getScore();
-            Long score = !ObjectUtils.isEmpty(originScore) ? Math.round(originScore) : 0;
-
-            return RankScoreResponse.builder()
-                    .songRankDto(songRankDto)
-                    .searchCount(score)
-                    .build();
-        }).collect(Collectors.toList());
+    public Set<TypedTuple<String>> getTopScores(int count) {
+        return rankRedisRepository.zGetTopScores(count);
     }
 
     public void deleteSong() {
-        redisTemplate.delete(SONG_KEY);
+        rankRedisRepository.deleteSong();
     }
 
     public void deleteSongSearchCount() {
-        redisTemplate.delete(SONG_SEARCH_COUNT_KEY);
+        rankRedisRepository.deleteSongSearchCount();
     }
 }
