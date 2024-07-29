@@ -34,7 +34,7 @@ public class RankRedisServiceV2 {
         return rankRedisRepository.zGetScore(String.valueOf(songId));
     }
 
-    public void zAddScore(Long songId, Double score) {
+    public void addScore(Long songId, Double score) {
         rankRedisRepository.zAddScore(String.valueOf(songId), score);
     }
 

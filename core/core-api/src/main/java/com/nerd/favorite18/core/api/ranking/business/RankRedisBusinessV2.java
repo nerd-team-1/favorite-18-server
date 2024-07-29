@@ -32,12 +32,12 @@ public class RankRedisBusinessV2 {
         final Double currentScore = rankRedisServiceV2.getScore(songId);
 
         if (!ObjectUtils.isEmpty(currentScore)) {
-            rankRedisServiceV2.zAddScore(songId, currentScore + 1);
+            rankRedisServiceV2.addScore(songId, currentScore + 1);
         } else {
             final SongRankDto songRankDto = songSelectService.getSongForRank(songId);
             rankRedisServiceV2.addSong(songRankDto);
 
-            rankRedisServiceV2.zAddScore(songId, (double) 1);
+            rankRedisServiceV2.addScore(songId, (double) 1);
         }
     }
 
