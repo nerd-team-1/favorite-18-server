@@ -15,6 +15,8 @@ import com.nerd.favorite18.storage.db.core.song.repository.SongLikeRepository;
 import com.nerd.favorite18.storage.db.core.song.repository.SongRepository;
 import com.nerd.favorite18.storage.db.core.user.entity.User;
 import com.nerd.favorite18.storage.db.core.user.repository.UserRepository;
+import java.util.Collections;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -52,6 +54,21 @@ public class SongLikeService {
                     page.getUpdatedAt());
             }
         );
+    }
+
+    @Transactional(readOnly = true)
+    public List<Long> confirmLikeList(UserDto userDto, List<Long> songIds) {
+        User userEntity =  userRepository.findFirstByIdAndStatusOrderByIdDesc(userDto.getId(), UserStatus.ACTIVE)
+                .orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
+
+        final List<SongLikeProjection> projections = songLikeRepository.findAllBySongLikeUserAndSongIdIn(userEntity, songIds);
+        if (ObjectUtils.isEmpty(projections)) {
+            return Collections.emptyList();
+        }
+
+        return projections.stream()
+            .map(songProjection -> songProjection.getSong().getId())
+            .toList();
     }
 
     @Transactional
