@@ -51,7 +51,8 @@ public class SongLikeService {
                     page.getId(),
                     SongDto.of(song.getId(), song.getTitle(), song.getArtist(), song.getAlbumPictureUrl()),
                     page.getCreatedAt(),
-                    page.getUpdatedAt());
+                    page.getUpdatedAt()
+                );
             }
         );
     }
@@ -77,8 +78,7 @@ public class SongLikeService {
                 .orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
 
         Song songEntity = songRepository.findFirstByIdOrderByIdDesc(songId)
-                // TODO : Song 서비스 통합 후 에러 변경 해야함
-                .orElseThrow(() -> new CoreApiException(ErrorType.DEFAULT_ERROR));
+                .orElseThrow(() -> new CoreApiException(ErrorType.SONG_NOT_FOUND));
 
         SongLike songLikeEntity = songLikeConverter.toEntity(userEntity, songEntity);
 
@@ -91,8 +91,7 @@ public class SongLikeService {
                 .orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
 
         Song songEntity = songRepository.findFirstByIdOrderByIdDesc(songId)
-                // TODO : Song 서비스 통합 후 에러 변경 해야함
-                .orElseThrow(() -> new CoreApiException(ErrorType.DEFAULT_ERROR));
+                .orElseThrow(() -> new CoreApiException(ErrorType.SONG_NOT_FOUND));
 
         songLikeRepository.deleteBySongLikeUserAndSong(userEntity, songEntity);
     }
