@@ -79,9 +79,6 @@ public class ModelScoreBusiness {
         String command = String.format("docker exec %s bash -c \"~/model/fav18_score %s %s\"",
                 containerId, request.getOriginalFilename(), recordedFilename);
 
-        File resultFile = new File(resultPath + "/" + recordedFilename + "/analysis_result.json");
-        log.info("resultPath: {}", resultFile.getPath());
-
         Stopwatch stopwatch = Stopwatch.createStarted();
         try {
             log.info("점수 분석 모델 실행...");
@@ -110,6 +107,7 @@ public class ModelScoreBusiness {
         long elapsedMillis = stopwatch.elapsed(TimeUnit.MILLISECONDS);
         log.info("점수 분석 작업 완료. 소요 시간: {} ms (약 {})", elapsedMillis, StringUtils.formatElapsedTime(elapsedMillis));
 
+        File resultFile = new File(resultPath + "/" + recordedFilename + "/analysis_result.json");
         ScoreResult scoreResult;
         try {
             scoreResult = objectMapper.readValue(resultFile, ScoreResult.class);
