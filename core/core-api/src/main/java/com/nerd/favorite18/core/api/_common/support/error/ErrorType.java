@@ -11,6 +11,7 @@ public enum ErrorType {
     RANK_REDIS_NOT_FOUND(HttpStatus.BAD_REQUEST, ErrorCode.E5404, "Rank Redis is not fonded.", LogLevel.ERROR),
 
     SONG_DUPLICATE(HttpStatus.BAD_REQUEST, ErrorCode.E400, "Song is duplicated", LogLevel.WARN),
+    SONG_NOT_FOUND(HttpStatus.BAD_REQUEST, ErrorCode.E6404, "Song is not fonded.", LogLevel.WARN),
 
     INVALID_TOKEN(HttpStatus.BAD_REQUEST, ErrorCode.E2000, "Token is invalided.", LogLevel.ERROR),
     EXPIRED_TOKEN(HttpStatus.BAD_REQUEST, ErrorCode.E2001, "Token is expired.", LogLevel.ERROR),

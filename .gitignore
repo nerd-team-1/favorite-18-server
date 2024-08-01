@@ -94,3 +94,5 @@ Temporary Items
 *.msix
 *.msm
 *.msp
+
+/fav18/

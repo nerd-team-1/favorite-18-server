@@ -12,6 +12,10 @@ spring:
     redis:
       host: localhost
       port: 6379
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
 
 server:
   tomcat:
@@ -42,6 +46,12 @@ token:
     plus-hour: 1
   refresh-token:
     plus-hour: 12
+
+model:
+  container-id: ${MODEL_CONTAINER_ID}
+  recorded-path: ${MODEL_RECORDED_PATH}
+  result-path: ${MODEL_RESULT_PATH}
+
 
 ---
 spring.config.activate.on-profile: local
