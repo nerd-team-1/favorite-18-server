@@ -8,13 +8,15 @@ import lombok.Getter;
 public class ModelScoreResponse {
     String recordedFilename;
     Integer score;
+    Double tune;
     Double similarity;
 
-    public static ModelScoreResponse of(String recordedFilename, Integer score, Double similarity) {
+    public static ModelScoreResponse of(String recordedFilename, Integer score, Double tune, Double similarity) {
 
         return new ModelScoreResponse(
                 recordedFilename,
                 score,
+                tune,
                 similarity
         );
     }

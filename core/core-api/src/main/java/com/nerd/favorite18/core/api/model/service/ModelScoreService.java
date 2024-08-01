@@ -37,7 +37,7 @@ public class ModelScoreService {
         User userEntity =  userRepository.findFirstByIdAndStatusOrderByIdDesc(userDto.getId(), UserStatus.ACTIVE)
                 .orElseThrow(() -> new CoreApiException(ErrorType.USER_NOT_FOUND));
 
-        final List<ModelScoreProjection> projections = modelScoreRepository.findAllByUserOrderByCreatedAtDesc(userEntity);
+        final List<ModelScoreProjection> projections = modelScoreRepository.findAllByUserAndScoreIsNotNullOrderByCreatedAtDesc(userEntity);
 
         return projections.stream().map(projection -> {
             SongProjection song = projection.getSong();
@@ -46,6 +46,7 @@ public class ModelScoreService {
                     projection.getId(),
                     SongDto.of(song.getId(), song.getTitle(), song.getArtist(), song.getAlbumPictureUrl()),
                     projection.getScore(),
+                    projection.getTune(),
                     projection.getSimilarity(),
                     projection.getCreatedAt(),
                     projection.getUpdatedAt()
@@ -70,12 +71,13 @@ public class ModelScoreService {
     @Transactional
     public void saveScore(Long modelScoreId, ScoreResult scoreResult, long analysisTime) {
         final Integer score = ConvertUtils.stringToInteger(scoreResult.getNormalizedScore());
-        final Double similarity = ConvertUtils.stringToDouble(scoreResult.getCombinedSimilarity());
+        final Double tune = ConvertUtils.stringToDouble(scoreResult.getMeanChromaSimilarity());
+        final Double similarity = ConvertUtils.stringToDouble(scoreResult.getMeanMfccSimilarity());
 
         final ModelScore entity = modelScoreRepository.findById(modelScoreId)
                 .orElseThrow(() -> new CoreApiException(ErrorType.NOT_FOUND));
 
-        entity.applyUpdates(score, similarity, analysisTime);
+        entity.applyUpdates(score, tune, similarity, analysisTime);
 
         modelScoreRepository.save(entity);
     }

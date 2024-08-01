@@ -21,8 +21,9 @@ public class ModelConverter {
 
     public ModelScoreResponse toResponse(String recordedFilename, ScoreResult scoreResult) {
         final Integer score = ConvertUtils.stringToInteger(scoreResult.getNormalizedScore());
-        final Double similarity = ConvertUtils.stringToDouble(scoreResult.getCombinedSimilarity());
+        final Double tune = ConvertUtils.stringToDouble(scoreResult.getMeanChromaSimilarity());
+        final Double similarity = ConvertUtils.stringToDouble(scoreResult.getMeanMfccSimilarity());
 
-        return ModelScoreResponse.of(recordedFilename, score, similarity);
+        return ModelScoreResponse.of(recordedFilename, score, tune, similarity);
     }
 }

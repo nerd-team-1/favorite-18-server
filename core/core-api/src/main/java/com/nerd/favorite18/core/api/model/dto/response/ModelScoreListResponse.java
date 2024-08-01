@@ -14,6 +14,7 @@ public class ModelScoreListResponse {
     private Long id;
     private SongDto song;
     private Integer score;
+    private Double tune;
     private Double similarity;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -22,6 +23,7 @@ public class ModelScoreListResponse {
             Long id,
             SongDto song,
             Integer score,
+            Double tune,
             Double similarity,
             LocalDateTime createdAt,
             LocalDateTime updatedAt
@@ -30,6 +32,7 @@ public class ModelScoreListResponse {
                 id,
                 song,
                 score,
+                tune,
                 similarity,
                 createdAt,
                 updatedAt

@@ -37,27 +37,34 @@ public class ModelScore extends BaseEntity {
     @Comment("분석 대상 이름")
     private String recordedFilename;
 
-    @Comment("분석 점수")
+    @Comment("총 점수")
     private Integer score;
 
-    @Comment("분석 유사도")
+    @Comment("음정 분석치")
+    private Double tune;
+
+    @Comment("유사도 분석치")
     private Double similarity;
 
     @Comment("분석 소요 시간")
     private long analysisTime;
 
     @Builder
-    public ModelScore(User user, Song song, String recordedFilename, Integer score, Double similarity, long analysisTime) {
+    public ModelScore(User user, Song song, String recordedFilename, Integer score, Double tune, Double similarity, long analysisTime) {
         this.user = user;
         this.song = song;
         this.recordedFilename = recordedFilename;
         this.score = score;
+        this.tune = tune;
         this.similarity = similarity;
         this.analysisTime = analysisTime;
     }
 
     public void updateScore(Integer score) {
         this.score = score;
+    }
+    public void updateTune(Double tune) {
+        this.tune = tune;
     }
 
     public void updateSimilarity(Double similarity) {
@@ -68,9 +75,13 @@ public class ModelScore extends BaseEntity {
         this.analysisTime = analysisTime;
     }
 
-    public void applyUpdates(Integer score, Double similarity, long analysisTime) {
+    public void applyUpdates(Integer score, Double tune, Double similarity, long analysisTime) {
         if (!ObjectUtils.isEmpty(score)) {
             updateScore(score);
+        }
+
+        if (!ObjectUtils.isEmpty(tune)) {
+            updateTune(tune);
         }
 
         if (!ObjectUtils.isEmpty(similarity)) {
