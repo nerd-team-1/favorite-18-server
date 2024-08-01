@@ -79,11 +79,13 @@ public class ModelScoreBusiness {
         String command = String.format("docker exec %s bash -c \"~/model/fav18_score %s %s\"",
                 containerId, request.getOriginalFilename(), recordedFilename);
 
+        log.info("점수 분석 모델 실행 명령어 >>> {}", command);
         Stopwatch stopwatch = Stopwatch.createStarted();
         try {
             log.info("점수 분석 모델 실행...");
             Process process = Runtime.getRuntime().exec(command);
 
+            log.info("점수 분석 모델 실행, 결과 확인 중...");
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
                  BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
                 String line;
@@ -101,6 +103,7 @@ public class ModelScoreBusiness {
             }
 
         } catch (IOException | InterruptedException e) {
+            log.error("점수분석 실패 원본오류 >>> ", e);
             throw new CoreApiException(ErrorType.DEFAULT_ERROR, "점수 분석에 실패하였습니다.");
         }
         stopwatch.stop();
