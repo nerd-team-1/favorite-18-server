@@ -35,6 +35,8 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 @Business
 public class ModelScoreBusiness {
+    private static final String BLANK = " ";
+
     @Value("${model.container-id}")
     private String containerId;
     @Value("${model.recorded-path}")
@@ -75,17 +77,24 @@ public class ModelScoreBusiness {
     }
 
     public ModelScoreResponse scoreModel(ModelScoreRequest request) {
+        String originalFilename = request.getOriginalFilename();
         String recordedFilename = request.getRecordedFilename();
-        String command = String.format("docker exec %s bash -c \"~/model/fav18_score %s %s\"",
-                containerId, request.getOriginalFilename(), recordedFilename);
+        String dockerPath = "docker";  // docker 절대 경로
+        log.info("{} 번 점수 분석 요청 - 노래 ID : {}, 녹음본 : {}", request.getModelScoreId(), originalFilename, recordedFilename);
+        String[] command = {
+                dockerPath, "exec", containerId, "bash",
+                "-c", "~/model/fav18_score" + BLANK + originalFilename + BLANK + recordedFilename
+        };
 
-        log.info("점수 분석 모델 실행 명령어 >>> {}", command);
+        ProcessBuilder processBuilder = new ProcessBuilder(command);
+        processBuilder.redirectErrorStream(true);
+
         Stopwatch stopwatch = Stopwatch.createStarted();
         try {
             log.info("점수 분석 모델 실행...");
-            Process process = Runtime.getRuntime().exec(command);
+            Process process = processBuilder.start();
 
-            log.info("점수 분석 모델 실행, 결과 확인 중...");
+            log.info("점수 분석 모델 실행 - 결과 확인 중...");
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
                  BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()))) {
                 String line;
@@ -103,10 +112,11 @@ public class ModelScoreBusiness {
             }
 
         } catch (IOException | InterruptedException e) {
-            log.error("점수분석 실패 원본오류 >>> ", e);
+            log.error("점수 분석 실패 원본 >>> ", e);
             throw new CoreApiException(ErrorType.DEFAULT_ERROR, "점수 분석에 실패하였습니다.");
         }
         stopwatch.stop();
+
         long elapsedMillis = stopwatch.elapsed(TimeUnit.MILLISECONDS);
         log.info("점수 분석 작업 완료. 소요 시간: {} ms (약 {})", elapsedMillis, StringUtils.formatElapsedTime(elapsedMillis));
 
