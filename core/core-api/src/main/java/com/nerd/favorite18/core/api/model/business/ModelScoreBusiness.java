@@ -79,7 +79,7 @@ public class ModelScoreBusiness {
     public ModelScoreResponse scoreModel(ModelScoreRequest request) {
         String originalFilename = request.getOriginalFilename();
         String recordedFilename = request.getRecordedFilename();
-        String dockerPath = "docker";  // docker 절대 경로
+        String dockerPath = "/bin/docker";  // docker 절대 경로
         log.info("{} 번 점수 분석 요청 - 노래 ID : {}, 녹음본 : {}", request.getModelScoreId(), originalFilename, recordedFilename);
         String[] command = {
                 dockerPath, "exec", containerId, "bash",
