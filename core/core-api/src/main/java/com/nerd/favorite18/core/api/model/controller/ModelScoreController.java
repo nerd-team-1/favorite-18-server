@@ -11,6 +11,8 @@ import com.nerd.favorite18.core.api.model.dto.response.ModelScoreListResponse;
 import com.nerd.favorite18.core.api.model.dto.response.ModelScoreResponse;
 import com.nerd.favorite18.core.api.model.dto.response.ModelUploadResponse;
 import com.nerd.favorite18.core.api.user.dto.UserDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
+@Tag(name = "2.1 [모델 점수]", description = "모델 점수 분석")
 @Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/model")
@@ -31,6 +34,7 @@ public class ModelScoreController {
     private final ModelScoreBusiness modelScoreBusiness;
 
     // 내 점수 분석 히스토리
+    @Operation(summary = "내 점수 분석 히스토리", description = "내 점수 분석 히스토리를 조회한다.")
     @GetMapping("/score")
     public ApiResponse<List<ModelScoreListResponse>> getMyScoreList(@UserSession UserDto userDto) {
         final List<ModelScoreListResponse> response = modelScoreBusiness.getMyScoreList(userDto);
@@ -39,6 +43,7 @@ public class ModelScoreController {
     }
 
     // 녹음 파일 서버 업로드
+    @Operation(summary = "녹음 파일 서버 업로드", description = "녹음 파일을 서버에 업로드한다.")
     @PostMapping("/record")
     public ApiResponse<ModelUploadResponse> uploadFile(
             @UserSession UserDto userDto,
@@ -56,6 +61,7 @@ public class ModelScoreController {
     }
 
     // 녹음 파일 점수 분석
+    @Operation(summary = "녹음 파일 점수 분석", description = "녹음 파일을 분석하여 점수를 반환한다.")
     @PostMapping("/score")
     public ApiResponse<ModelScoreResponse> scoreModel(
             @RequestBody ModelScoreRequest request
