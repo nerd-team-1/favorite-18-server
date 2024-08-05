@@ -60,6 +60,27 @@ public class ModelScoreController {
         return ApiResponse.success(response);
     }
 
+    @Operation(summary = "녹음 파일 서버 업로드", description = "모바일에서 녹음 파일을 서버에 업로드한다.")
+    @PostMapping("/record/mobile")
+    public ApiResponse<ModelUploadResponse> uploadFile2(
+            @UserSession UserDto userDto,
+            @RequestPart(value = "file") MultipartFile file,
+            @RequestPart(value = "data") String id
+    ) {
+        log.info("file: {}", file.getOriginalFilename());
+        log.info("data: {}", id);
+
+        String filename = file.getOriginalFilename();
+        if (filename == null || !filename.endsWith(".m4a")) {
+            throw new CoreApiException(ErrorType.DEFAULT_ERROR, "유효한 m4a 파일을 업로드하세요.");
+        }
+
+        Long songId = Long.parseLong(id);
+        final ModelUploadResponse response = modelScoreBusiness.saveFile(userDto, file, new ModelUploadRequest(songId));
+
+        return ApiResponse.success(response);
+    }
+
     // 녹음 파일 점수 분석
     @Operation(summary = "녹음 파일 점수 분석", description = "녹음 파일을 분석하여 점수를 반환한다.")
     @PostMapping("/score")
